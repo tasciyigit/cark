@@ -1,0 +1,13 @@
+{
+  "name": "Çark — Karar verme uygulaması",
+  "short_name": "Çark",
+  "description": "Çarkı çevir, yazı tura at, takımlar oluştur.",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f3ef",
+  "theme_color": "#f4f3ef",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

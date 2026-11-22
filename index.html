@@ -563,6 +563,47 @@
       border: 0
     }
 
+    .nav-opacity-row {
+      display: block
+    }
+
+    .nav-opacity-control {
+      display: grid;
+      gap: 7px;
+      margin-top: 10px
+    }
+
+    .nav-opacity-control input {
+      width: 100%;
+      margin: 0;
+      accent-color: var(--green)
+    }
+
+    .nav-opacity-scale {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 10px
+    }
+
+    .nav-opacity-scale output {
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums
+    }
+
+    .install-row {
+      padding-top: 8px;
+      padding-bottom: 8px
+    }
+
+    .settings-footer {
+      margin-top: 8px
+    }
+
     .toggle {
       accent-color: #657e4d;
       width: 18px;
@@ -740,7 +781,7 @@
         margin: 0;
         padding: 4px 5px;
         border-radius: 34px;
-        background: radial-gradient(120% 100% at 50% 50%, rgba(255, 255, 255, .08) 0%, rgba(255, 255, 255, .18) 75%, rgba(255, 255, 255, .28) 100%);
+        background: radial-gradient(120% 100% at 50% 50%, rgba(255, 255, 255, var(--nav-glass-low, .08)) 0%, rgba(255, 255, 255, var(--nav-glass-mid, .18)) 75%, rgba(255, 255, 255, var(--nav-glass-high, .28)) 100%);
         border: 0.5px solid rgba(255, 255, 255, .7);
         backdrop-filter: blur(2.5px) saturate(210%);
         -webkit-backdrop-filter: blur(2.5px) saturate(210%);
@@ -821,7 +862,7 @@
         width: 100%;
         height: 100%;
         border-radius: 26px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, .38) 0%, rgba(255, 255, 255, .12) 100%);
+        background: linear-gradient(180deg, rgba(255, 255, 255, var(--nav-pill-top, .38)) 0%, rgba(255, 255, 255, var(--nav-pill-bottom, .12)) 100%);
         border: 0.5px solid rgba(255, 255, 255, .7);
         box-shadow: 0 2px 8px rgba(0, 0, 0, .04), inset 0 1px 1.5px rgba(255, 255, 255, .8), inset 0 -0.5px 1px rgba(0, 0, 0, .03);
         backdrop-filter: blur(1.5px);
@@ -1029,6 +1070,8 @@
       --line: #383d35;
       --card: rgba(37, 41, 35, .9);
       --shadow: 0 18px 55px rgba(0, 0, 0, .3);
+      --nav-glass-rgb: 44, 46, 47;
+      --nav-highlight-rgb: 255, 255, 255;
       color-scheme: dark;
       background: #171a16;
       color: var(--ink)
@@ -1117,12 +1160,12 @@
 
     [data-theme="dark"] .nav button.active {
       color: #fff;
-      background: rgba(255, 255, 255, .1)
+      background: rgba(var(--nav-highlight-rgb, 255, 255, 255), var(--nav-active-alpha, .1))
     }
 
     body.standalone[data-theme="dark"] .nav-wrap,
     [data-theme="dark"] body.standalone .nav-wrap {
-      background: radial-gradient(120% 100% at 50% 50%, rgba(255, 255, 255, .005) 0%, rgba(255, 255, 255, .02) 75%, rgba(255, 255, 255, .05) 100%);
+      background: radial-gradient(120% 100% at 50% 50%, rgba(var(--nav-glass-rgb, 44, 46, 47), var(--nav-glass-low, .005)) 0%, rgba(var(--nav-glass-rgb, 44, 46, 47), var(--nav-glass-mid, .02)) 75%, rgba(var(--nav-glass-rgb, 44, 46, 47), var(--nav-glass-high, .05)) 100%);
       border: 0.5px solid rgba(255, 255, 255, .3);
       backdrop-filter: blur(2.5px) saturate(210%);
       -webkit-backdrop-filter: blur(2.5px) saturate(210%);
@@ -1142,13 +1185,13 @@
 
     body.standalone[data-theme="dark"] .nav button.active,
     [data-theme="dark"] body.standalone .nav button.active {
-      color: #ffffff;
+      color: var(--nav-active-label, #ffffff);
       text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
     }
 
     body.standalone[data-theme="dark"] .nav-indicator::before,
     [data-theme="dark"] body.standalone .nav-indicator::before {
-      background: linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, .02) 100%);
+      background: linear-gradient(180deg, rgba(var(--nav-highlight-rgb, 255, 255, 255), var(--nav-pill-top, .10)) 0%, rgba(var(--nav-highlight-rgb, 255, 255, 255), var(--nav-pill-bottom, .02)) 100%);
       border: 0.5px solid rgba(255, 255, 255, .28);
       box-shadow:
         0 2px 8px rgba(0, 0, 0, .2),
@@ -1396,7 +1439,7 @@
         <h2>Takımları oluştur</h2>
         <p>Çarkındaki isimleri karıştırıp dengeli takımlara ayıralım.</p><label class="form-line" for="teamCount">Kaç
           takım olsun? <input id="teamCount" class="select" type="number" min="2" max="20" value="2"
-            inputmode="numeric"></label><label class="form-line" style="display:block">Oyuncu isimleri <span
+            inputmode="numeric"></label><label class="form-line team-names-label" style="display:block">Oyuncu isimleri <span class="team-names-hint"
             style="display:block;font-size:11px;color:#858a80;margin:5px 0 8px">Her satıra bir isim yaz</span><textarea
             id="teamNames" rows="10"
             placeholder="Bade&#10;Yiğit&#10;Meryem&#10;Mustafa&#10;Alara&#10;Bekir&#10;Şule&#10;Cenk"
@@ -1410,19 +1453,28 @@
         <div class="eyebrow">Kişiselleştir</div>
         <h2>Ayarlar</h2>
         <p>Çark'ı kendine göre düzenle.</p>
-        <div class="setting-row setting-theme-row"><span>Görünüm</span><span id="themeSettingSlot"></span></div><label
-          class="setting-row">Navigasyon çubuğu <select class="select" id="navStyle">
-            <option value="glass">Sıvı cam (Şeffaf)</option>
-            <option value="matte">Mat (Opak)</option>
-          </select></label><label class="setting-row">Dil <select class="select" id="language">
+        <div class="setting-row setting-theme-row"><span>Görünüm</span><span id="themeSettingSlot"></span></div>
+        <label class="setting-row nav-opacity-row">
+          <span id="navTransparencyLabel">Navigasyon saydamlığı</span>
+          <span class="nav-opacity-control">
+            <input type="range" id="navTransparency" min="0" max="100" step="1" value="14"
+              aria-label="Navigasyon saydamlığı">
+            <span class="nav-opacity-scale">
+              <small id="navTransparencyMin">Şeffaf</small>
+              <output id="navTransparencyValue" for="navTransparency">14%</output>
+              <small id="navTransparencyMax">Opak</small>
+            </span>
+          </span>
+        </label>
+        <label class="setting-row language-setting">Dil <select class="select" id="language">
             <option value="tr">Türkçe</option>
             <option value="en">English</option>
-          </select></label><label class="setting-row">Titreşim <span class="vibration-control"><input type="checkbox"
+          </select></label><label class="setting-row vibration-setting">Titreşim <span class="vibration-control"><input type="checkbox"
               class="toggle" id="vibrate"><small id="vibrationStatus"></small></span></label>
-        <div class="setting-row" style="border-bottom:0"><span>Ana ekrana ekle</span><button class="text-button"
+        <div class="setting-row install-row" style="border-bottom:0"><span>Ana ekrana ekle</span><button class="text-button"
             id="settingsInstall">Nasıl yapılır?</button></div>
         <div class="settings-footer"
-          style="margin-top:20px;padding-top:16px;border-top:1px solid #eff0ea;text-align:center;color:var(--muted);font-size:12px;line-height:1.6">
+          style="padding-top:16px;border-top:1px solid #eff0ea;text-align:center;color:var(--muted);font-size:12px;line-height:1.6">
           <div style="font-weight:700;color:var(--ink);font-size:13px;letter-spacing:-.2px;margin-bottom:2px">Çark v2.0
           </div>
           <div>Tasarım & Geliştirme: <strong style="color:var(--ink);font-weight:600">Yiğit Taşçı</strong></div>
@@ -1466,6 +1518,62 @@
     try { localStorage.removeItem('cark-names'); localStorage.removeItem('cark-team-names') } catch (e) { }
     const palette = ['#9cb969', '#f0c36a', '#e59070', '#87afa1', '#b69ac9', '#d6809d', '#80a9c6', '#d2a45e'];
     const defaults = ['Kahve molası', 'Film gecesi', 'Kısa bir yürüyüş', 'Yeni bir tarif'];
+    const translations = {
+      tr: {
+        subtitle: 'Karar vermenin eğlenceli yolu', eyebrow: 'Şansına güven ✨', headline: 'Kararı çarka<br> bırak.',
+        tagline: 'Küçük kararları eğlenceli hale getir.', wheel: 'Çark', coin: 'Yazı tura', teams: 'Takımlar', settings: 'Ayarlar',
+        wheelTitle: 'Bugün ne yapıyoruz?', optionCount: 'seçenek', list: 'Çarkındaki isimler', clear: 'Temizle',
+        emptyOptions: 'Henüz seçenek yok. Bir tane ekle!', delete: 'Sil', namePlaceholder: 'Yeni bir seçenek ekle',
+        add: 'Ekle', spin: '✦ Çarkı çevir', wheelResultTitle: 'Çarkın sonucu', winnerVerb: 'kazandı!',
+        quickDecision: 'Hızlı karar', coinTitle: 'Yazı mı, tura mı?', coinCopy: 'Bir seçim yapamadığında, cevabı havaya bırak.',
+        heads: 'Yazı', tails: 'Tura', coinReady: 'Hazır olduğunda dokun', flip: '✦ Parayı at', coinResultTitle: 'Yazı tura',
+        teamsEyebrow: 'Birlikte oynayın', teamTitle: 'Takımları oluştur',
+        teamCopy: 'Çarkındaki isimleri karıştırıp dengeli takımlara ayıralım.',
+        teamCount: 'Kaç takım olsun?', playersTitle: 'Oyuncu isimleri', playersHint: 'Her satıra bir isim yaz',
+        teamPlaceholder: 'Bade\nYiğit\nMeryem\nMustafa\nAlara\nBekir\nŞule\nCenk',
+        teamLabel: '{n}. Takım', teamNeedTwo: 'En az 2 oyuncu adı gir', teamCountRange: 'Takım sayısı 2 ile 20 arasında olmalı',
+        teamCountTooHigh: 'Takım sayısı oyuncu sayısını aşamaz', profile: 'Profil', opacity: 'opaklık', settingsEyebrow: 'Kişiselleştir',
+        settingsTitle: 'Ayarlar', settingsCopy: "Çark'ı kendine göre düzenle.", appearance: 'Görünüm',
+        navTransparency: 'Navigasyon saydamlığı', transparent: 'Şeffaf', opaque: 'Opak', language: 'Dil',
+        vibration: 'Titreşim', vibrationUnsupported: 'Bu tarayıcı titreşimi desteklemiyor',
+        installLabel: 'Ana ekrana ekle', installAction: 'Nasıl yapılır?', installBanner: "Çark'ı ana ekranına ekle, uygulama gibi kullan.",
+        installButton: 'Ekle', installHelp: 'iPhone/iPad: Paylaş → Ana Ekrana Ekle',
+        credit: 'Tasarım & Geliştirme:', copyright: '© 2026 · Her kararın eğlenceli yolu',
+        resultClose: 'Kapat', resultTitle: 'Sonuç', resultOk: 'Tamam', mainNavigation: 'Ana navigasyon',
+        darkMode: 'Koyu moda geç', lightMode: 'Açık moda geç',
+        spinNeedsTwo: 'Çark için en az 2 seçenek ekle', maxOptions: 'En fazla 16 seçenek ekleyebilirsin',
+        pageTitle: 'Çark — Karar vermenin eğlenceli yolu',
+        description: 'Karar vermeyi eğlenceli hale getir: çarkı çevir, yazı tura at, takımlar oluştur.'
+      },
+      en: {
+        subtitle: 'A fun way to make decisions', eyebrow: 'Trust your luck ✨', headline: 'Let the wheel<br> decide.',
+        tagline: 'Make little decisions more fun.', wheel: 'Wheel', coin: 'Coin toss', teams: 'Teams', settings: 'Settings',
+        wheelTitle: 'What are we doing today?', optionCount: 'options', list: 'Your options', clear: 'Clear',
+        emptyOptions: 'No options yet. Add one!', delete: 'Delete', namePlaceholder: 'Add a new option',
+        add: 'Add', spin: '✦ Spin the wheel', wheelResultTitle: 'The wheel chose', winnerVerb: 'wins!',
+        quickDecision: 'Quick decision', coinTitle: 'Heads or tails?', coinCopy: 'When you cannot decide, leave it to chance.',
+        heads: 'Heads', tails: 'Tails', coinReady: 'Tap when you are ready', flip: '✦ Flip the coin', coinResultTitle: 'Coin toss',
+        teamsEyebrow: 'Play together', teamTitle: 'Create teams',
+        teamCopy: 'Shuffle the names and split everyone into balanced teams.',
+        teamCount: 'Number of teams', playersTitle: 'Player names', playersHint: 'Enter one name per line',
+        teamPlaceholder: 'Bade\nYiğit\nMeryem\nMustafa\nAlara\nBekir\nŞule\nCenk',
+        teamLabel: 'Team {n}', teamNeedTwo: 'Enter at least 2 player names', teamCountRange: 'Choose between 2 and 20 teams',
+        teamCountTooHigh: 'The number of teams cannot exceed the number of players', profile: 'Profile', opacity: 'opacity',
+        settingsEyebrow: 'Personalize', settingsTitle: 'Settings', settingsCopy: 'Make Çark your own.',
+        appearance: 'Appearance', navTransparency: 'Navigation bar opacity', transparent: 'Transparent', opaque: 'Opaque',
+        language: 'Language', vibration: 'Haptics', vibrationUnsupported: 'Vibration is not supported by this browser',
+        installLabel: 'Add to Home Screen', installAction: 'How to install?', installBanner: 'Add Çark to your Home Screen and use it like an app.',
+        installButton: 'Add', installHelp: 'iPhone/iPad: Share → Add to Home Screen',
+        credit: 'Design & Development:', copyright: '© 2026 · A fun way to make every choice',
+        resultClose: 'Close', resultTitle: 'Result', resultOk: 'Done', mainNavigation: 'Main navigation',
+        darkMode: 'Switch to dark mode', lightMode: 'Switch to light mode',
+        spinNeedsTwo: 'Add at least 2 options to spin the wheel', maxOptions: 'You can add up to 16 options',
+        pageTitle: 'Çark — A fun way to make decisions',
+        description: 'Make decisions more fun: spin the wheel, flip a coin, or create teams.'
+      }
+    };
+    let currentLanguage = localStorage.getItem('cark-language') || 'tr';
+    const translate = key => (translations[currentLanguage] && translations[currentLanguage][key]) || translations.tr[key] || key;
     let names = JSON.parse(sessionStorage.getItem('cark-names') || 'null') || [...defaults]; let spinning = false; let deferredPrompt = null;
     const $ = s => document.querySelector(s); const toast = t => { const e = $('#toast'); e.textContent = t; e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 2200) };
     function showResult(title, message, refocusSelector) { const overlay = $('#resultOverlay'); $('#resultTitle').textContent = title; $('#resultMessage').textContent = message; overlay.hidden = false; requestAnimationFrame(() => { overlay.classList.add('show'); overlay.setAttribute('aria-hidden', 'false') }); const close = () => { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); setTimeout(() => { overlay.hidden = true }, 240); if (refocusSelector) { const el = $(refocusSelector); if (el) el.focus() } }; $('#resultClose').onclick = close; $('#resultOk').onclick = close; overlay.onclick = e => { if (e.target === overlay) close() } }
@@ -1473,20 +1581,110 @@
     let wheelRotation = 0;
     function fitText(ctx, text, maxWidth) { let out = String(text); while (out.length > 1 && ctx.measureText(out).width > maxWidth) out = out.slice(0, -2) + '…'; return out }
     function drawLabels(rotation = 0) { const canvas = $('#wheelLabels'); if (!canvas) return; const rect = canvas.getBoundingClientRect(); if (!rect.width) return; const ratio = Math.max(1, window.devicePixelRatio || 1), size = Math.max(1, Math.floor(rect.width * ratio)), ctx = canvas.getContext('2d'); if (canvas.width !== size || canvas.height !== size) { canvas.width = size; canvas.height = size } ctx.setTransform(ratio, 0, 0, ratio, 0, 0); const side = rect.width, cx = side / 2, cy = side / 2, r = side / 2 * .58, count = names.length; ctx.clearRect(0, 0, side, side); if (!count) return; const step = 360 / count, color = '#20251f'; for (let i = 0; i < count; i++) { const mid = (-90 + (i + .5) * step + rotation) * Math.PI / 180; const x = cx + Math.cos(mid) * r, y = cy + Math.sin(mid) * r; const maxWidth = Math.max(24, 2 * r * Math.sin(Math.min(Math.PI / 2, step * Math.PI / 360)) * .88); const font = Math.max(8, Math.min(13, side * .045, step * side / 360 * .72)); ctx.save(); ctx.font = '700 ' + font + 'px system-ui, -apple-system, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = color; ctx.shadowColor = 'rgba(255,255,255,.62)'; ctx.shadowBlur = 2; ctx.fillText(fitText(ctx, names[i], maxWidth), x, y, maxWidth); ctx.restore() } }
-    function render() { const count = names.length; $('#countPill').textContent = count + ' seçenek'; $('#entries').innerHTML = names.map((n, i) => '<div class="entry"><span class="dot" style="background:' + palette[i % palette.length] + '"></span><span>' + escapeHtml(n) + '</span><small>' + String(i + 1).padStart(2, '0') + '</small><button class="delete" data-remove="' + i + '" aria-label="Sil">×</button></div>').join('') || '<div style="padding:14px 0;color:#92978d;font-size:12px">Henüz seçenek yok. Bir tane ekle!</div>'; const canvas = $('#wheelCanvas'), rect = canvas.getBoundingClientRect(); if (!rect.width) return; const ratio = Math.max(1, window.devicePixelRatio || 1), size = Math.max(1, Math.floor(rect.width * ratio)); if (canvas.width !== size || canvas.height !== size) { canvas.width = size; canvas.height = size } const ctx = canvas.getContext('2d'); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); const side = rect.width, cx = side / 2, cy = side / 2, r = side / 2 - 1; ctx.clearRect(0, 0, side, side); if (count) { const step = Math.PI * 2 / count; for (let i = 0; i < count; i++) { const start = -Math.PI / 2 + i * step, end = start + step; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, start, end); ctx.closePath(); ctx.fillStyle = palette[i % palette.length]; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1; ctx.stroke() } } drawLabels(wheelRotation % 360); document.querySelectorAll('[data-remove]').forEach(button => button.onclick = () => { names.splice(Number(button.dataset.remove), 1); save() }) }
+    function render() { const count = names.length; $('#countPill').textContent = count + ' ' + translate('optionCount'); $('#entries').innerHTML = names.map((n, i) => '<div class="entry"><span class="dot" style="background:' + palette[i % palette.length] + '"></span><span>' + escapeHtml(n) + '</span><small>' + String(i + 1).padStart(2, '0') + '</small><button class="delete" data-remove="' + i + '" aria-label="' + translate('delete') + '">×</button></div>').join('') || '<div style="padding:14px 0;color:#92978d;font-size:12px">' + escapeHtml(translate('emptyOptions')) + '</div>'; const canvas = $('#wheelCanvas'), rect = canvas.getBoundingClientRect(); if (!rect.width) return; const ratio = Math.max(1, window.devicePixelRatio || 1), size = Math.max(1, Math.floor(rect.width * ratio)); if (canvas.width !== size || canvas.height !== size) { canvas.width = size; canvas.height = size } const ctx = canvas.getContext('2d'); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); const side = rect.width, cx = side / 2, cy = side / 2, r = side / 2 - 1; ctx.clearRect(0, 0, side, side); if (count) { const step = Math.PI * 2 / count; for (let i = 0; i < count; i++) { const start = -Math.PI / 2 + i * step, end = start + step; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, start, end); ctx.closePath(); ctx.fillStyle = palette[i % palette.length]; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1; ctx.stroke() } } drawLabels(wheelRotation % 360); document.querySelectorAll('[data-remove]').forEach(button => button.onclick = () => { names.splice(Number(button.dataset.remove), 1); save() }) }
     function animateLabels() { if (!spinning) { drawLabels(wheelRotation % 360); return } const m = getComputedStyle($('#wheel')).transform.match(/^matrix\(([^)]+)\)$/); if (m) { const values = m[1].split(',').map(Number); drawLabels(Math.atan2(values[1], values[0]) * 180 / Math.PI) } requestAnimationFrame(animateLabels) }
     window.addEventListener('resize', render);
     function escapeHtml(s) { return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
     render();
     document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => go(b.dataset.tab)); document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go)); function go(tab) { const tabs = ['wheel', 'coin', 'teams', 'settings'], oldIndex = tabs.findIndex(t => document.querySelector('[data-tab=\"' + t + '\"]')?.classList.contains('active')), newIndex = tabs.indexOf(tab); document.querySelectorAll('.view').forEach(v => { const active = v.id === 'view-' + tab; v.classList.toggle('active', active); if (active) { v.classList.remove('slide-left', 'slide-right'); v.classList.add(newIndex >= oldIndex ? 'slide-right' : 'slide-left') } }); document.querySelectorAll('[data-tab]').forEach(b => { const active = b.dataset.tab === tab; b.classList.toggle('active', active); if (active) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current') }); moveIndicator(tab); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); if (tab === 'wheel') requestAnimationFrame(render) } moveIndicator('wheel');
-    $('#addForm').onsubmit = e => { e.preventDefault(); let v = $('#nameInput').value.trim(); if (!v) return; if (names.length >= 16) { toast('En fazla 16 seçenek ekleyebilirsin'); return } names.push(v); $('#nameInput').value = ''; save() }; $('#clearNames').onclick = () => { names = []; save() };
-    $('#spin').onclick = () => { if (spinning) return; if (names.length < 2) { toast('Çark için en az 2 seçenek ekle'); return } spinning = true; const winner = Math.floor(Math.random() * names.length), each = 360 / names.length; const desired = ((360 - (winner + .5) * each) % 360 + 360) % 360; const current = ((wheelRotation % 360) + 360) % 360; wheelRotation += 1800 + ((desired - current + 360) % 360); $('#wheel').style.transform = 'rotate(' + wheelRotation + 'deg)'; requestAnimationFrame(animateLabels); setTimeout(() => { spinning = false; drawLabels(wheelRotation % 360); showResult('Çarkın sonucu', names[winner] + ' kazandı!', '#spin'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(60) }, 4550) }; let coinBusy = false, coinSide = 0; $('#flip').onclick = () => { if (coinBusy) return; coinBusy = true; const result = Math.random() < .5 ? 'Yazı' : 'Tura', desired = result === 'Tura' ? 1 : 0, start = coinSide * 180, turns = 6 + ((desired - (coinSide % 2) + 2) % 2); coinSide += turns; const end = coinSide * 180, c = $('#coin'); c.getAnimations().forEach(animation => animation.cancel()); c.animate([{ transform: 'rotateY(' + start + 'deg)' }, { transform: 'rotateY(' + end + 'deg)' }], { duration: 1450, easing: 'cubic-bezier(.18,.72,.22,1)', fill: 'forwards' }).onfinish = () => { coinBusy = false; showResult('Yazı tura', result + '!', '#flip'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(50) } }; const samplePlayers = ['Bade', 'Yiğit', 'Meryem', 'Mustafa', 'Alara', 'Bekir', 'Şule', 'Cenk']; $('#teamNames').placeholder = samplePlayers.join('\n'); const sessionPlayers = sessionStorage.getItem('cark-team-names'); $('#teamNames').value = sessionPlayers || ''; $('#teamNames').addEventListener('input', e => sessionStorage.setItem('cark-team-names', e.target.value)); $('#makeTeams').onclick = () => { const players = $('#teamNames').value.split(/\n|,/).map(x => x.trim()).filter(Boolean), count = Math.floor(Number($('#teamCount').value)); if (players.length < 2) { toast('En az 2 oyuncu adı gir'); return } if (!Number.isFinite(count) || count < 2 || count > 20) { toast('Takım sayısı 2 ile 20 arasında olmalı'); return } if (count > players.length) { toast('Takım sayısı oyuncu sayısını aşamaz'); return } sessionStorage.setItem('cark-team-names', $('#teamNames').value); const shuffled = [...players]; for (let i = shuffled.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]] } const teams = Array.from({ length: count }, () => []); shuffled.forEach((n, i) => teams[i % count].push(n)); $('#teamOutput').innerHTML = teams.map((t, i) => `<div class="team-box"><h3>${i + 1}. Takım</h3>${t.map(n => `<div>${escapeHtml(n)}</div>`).join('')}</div>`).join('') };
-    const translations = { tr: { subtitle: 'Karar vermenin eğlenceli yolu', eyebrow: 'Şansına güven ✨', headline: 'Kararı çarka<br> bırak.', tagline: 'Küçük kararları eğlenceli hale getir.', wheel: 'Çark', coin: 'Yazı tura', teams: 'Takımlar', settings: 'Ayarlar', spin: '✦ Çarkı çevir', flip: '✦ Parayı at', teamTitle: 'Takımları oluştur', add: 'Ekle', list: 'Çarkındaki isimler' }, en: { subtitle: 'The fun way to decide', eyebrow: 'Trust your luck ✨', headline: 'Let the wheel decide.', tagline: 'Make little decisions more fun.', wheel: 'Wheel', coin: 'Coin toss', teams: 'Teams', settings: 'Settings', spin: '✦ Spin the wheel', flip: '✦ Flip the coin', teamTitle: 'Create teams', add: 'Add', list: 'Your options' } }; function applyLanguage(lang) { const t = translations[lang] || translations.tr; document.documentElement.lang = lang; document.querySelector('.brand-sub').textContent = t.subtitle; document.querySelector('.hero .eyebrow').textContent = t.eyebrow; document.querySelector('.hero h1').innerHTML = t.headline; document.querySelector('.hero p').textContent = t.tagline; document.querySelectorAll('[data-tab]').forEach((b, i) => b.lastChild.textContent = t[['wheel', 'coin', 'teams', 'settings'][i]]); $('#spin').textContent = t.spin; $('#flip').textContent = t.flip; $('#makeTeams').textContent = '✦ ' + t.teamTitle; $('#addForm button').textContent = t.add + ' ＋'; document.querySelector('#view-wheel .list-head .section-title').textContent = t.list; localStorage.setItem('cark-language', lang) } $('#language').value = localStorage.getItem('cark-language') || 'tr'; $('#language').onchange = () => applyLanguage($('#language').value); if ($('#language').value !== 'tr') applyLanguage($('#language').value); $('#settingsInstall').onclick = () => toast('Safari: Paylaş → Ana Ekrana Ekle');
-    window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('#installBanner').classList.add('show') }); $('#installBtn').onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null } else toast('Safari: Paylaş → Ana Ekrana Ekle') };
+    $('#addForm').onsubmit = e => { e.preventDefault(); let v = $('#nameInput').value.trim(); if (!v) return; if (names.length >= 16) { toast(translate('maxOptions')); return } names.push(v); $('#nameInput').value = ''; save() }; $('#clearNames').onclick = () => { names = []; save() };
+    $('#spin').onclick = () => { if (spinning) return; if (names.length < 2) { toast(translate('spinNeedsTwo')); return } spinning = true; const winner = Math.floor(Math.random() * names.length), each = 360 / names.length; const desired = ((360 - (winner + .5) * each) % 360 + 360) % 360; const current = ((wheelRotation % 360) + 360) % 360; wheelRotation += 1800 + ((desired - current + 360) % 360); $('#wheel').style.transform = 'rotate(' + wheelRotation + 'deg)'; requestAnimationFrame(animateLabels); setTimeout(() => { spinning = false; drawLabels(wheelRotation % 360); showResult(translate('wheelResultTitle'), names[winner] + ' ' + translate('winnerVerb'), '#spin'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(60) }, 4550) }; let coinBusy = false, coinSide = 0; $('#flip').onclick = () => { if (coinBusy) return; coinBusy = true; const desired = Math.random() < .5 ? 0 : 1, result = desired ? translate('tails') : translate('heads'), start = coinSide * 180, turns = 6 + ((desired - (coinSide % 2) + 2) % 2); coinSide += turns; const end = coinSide * 180, c = $('#coin'); c.getAnimations().forEach(animation => animation.cancel()); c.animate([{ transform: 'rotateY(' + start + 'deg)' }, { transform: 'rotateY(' + end + 'deg)' }], { duration: 1450, easing: 'cubic-bezier(.18,.72,.22,1)', fill: 'forwards' }).onfinish = () => { coinBusy = false; showResult(translate('coinResultTitle'), result + '!', '#flip'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(50) } }; const samplePlayers = ['Bade', 'Yiğit', 'Meryem', 'Mustafa', 'Alara', 'Bekir', 'Şule', 'Cenk']; $('#teamNames').placeholder = samplePlayers.join('\n'); const sessionPlayers = sessionStorage.getItem('cark-team-names'); $('#teamNames').value = sessionPlayers || ''; $('#teamNames').addEventListener('input', e => sessionStorage.setItem('cark-team-names', e.target.value)); $('#makeTeams').onclick = () => { const players = $('#teamNames').value.split(/\n|,/).map(x => x.trim()).filter(Boolean), count = Math.floor(Number($('#teamCount').value)); if (players.length < 2) { toast(translate('teamNeedTwo')); return } if (!Number.isFinite(count) || count < 2 || count > 20) { toast(translate('teamCountRange')); return } if (count > players.length) { toast(translate('teamCountTooHigh')); return } sessionStorage.setItem('cark-team-names', $('#teamNames').value); const shuffled = [...players]; for (let i = shuffled.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]] } const teams = Array.from({ length: count }, () => []); shuffled.forEach((n, i) => teams[i % count].push(n)); $('#teamOutput').innerHTML = teams.map((t, i) => `<div class="team-box"><h3>${translate('teamLabel').replace('{n}', i + 1)}</h3>${t.map(n => `<div>${escapeHtml(n)}</div>`).join('')}</div>`).join('') };
+    function setLabelText(selector, value) { const el = $(selector); if (!el) return; const text = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim()); if (text) text.textContent = ' ' + value + ' ' }
+    function applyLanguage(lang) {
+      if (!translations[lang]) lang = 'tr';
+      currentLanguage = lang;
+      const t = translations[lang];
+      document.documentElement.lang = lang;
+      document.title = t.pageTitle;
+      document.querySelector('meta[name="description"]').content = t.description;
+      $('#profileButton').setAttribute('aria-label', t.profile);
+      $('.brand-sub').textContent = t.subtitle;
+      $('.hero .eyebrow').textContent = t.eyebrow;
+      $('.hero h1').innerHTML = t.headline;
+      $('.hero p').textContent = t.tagline;
+      document.querySelectorAll('[data-tab]').forEach((button, i) => { button.lastChild.textContent = t[['wheel', 'coin', 'teams', 'settings'][i]] });
+      $('.nav').setAttribute('aria-label', t.mainNavigation);
+      $('#spin').textContent = t.spin;
+      $('#flip').textContent = t.flip;
+      $('#makeTeams').textContent = '✦ ' + t.teamTitle;
+      $('#addForm button').textContent = t.add + ' ＋';
+      $('#nameInput').placeholder = t.namePlaceholder;
+      $('#view-wheel .wheel-title .section-title').textContent = t.wheelTitle;
+      $('#view-wheel .list-head .section-title').textContent = t.list;
+      $('#clearNames').textContent = t.clear;
+      $('#wheelLabels').setAttribute('aria-label', t.list);
+      $('#view-coin .eyebrow').textContent = t.quickDecision;
+      $('#view-coin h2').textContent = t.coinTitle;
+      $('#view-coin p').textContent = t.coinCopy;
+      $('#coinResult').textContent = t.coinReady;
+      document.querySelector('.coin-face:not(.coin-back)').textContent = t.heads.toUpperCase();
+      $('.coin-back').textContent = t.tails.toUpperCase();
+      $('#view-teams .eyebrow').textContent = t.teamsEyebrow;
+      $('#view-teams h2').textContent = t.teamTitle;
+      $('#view-teams p').textContent = t.teamCopy;
+      setLabelText('#view-teams label[for="teamCount"]', t.teamCount);
+      setLabelText('#view-teams .team-names-label', t.playersTitle);
+      $('#view-teams .team-names-hint').textContent = t.playersHint;
+      $('#teamNames').placeholder = t.teamPlaceholder;
+      document.querySelectorAll('#teamOutput .team-box h3').forEach((heading, i) => heading.textContent = t.teamLabel.replace('{n}', i + 1));
+      $('#view-settings .eyebrow').textContent = t.settingsEyebrow;
+      $('#view-settings h2').textContent = t.settingsTitle;
+      $('#view-settings p').textContent = t.settingsCopy;
+      $('.setting-theme-row > span:first-child').textContent = t.appearance;
+      $('#navTransparencyLabel').textContent = t.navTransparency;
+      $('#navTransparency').setAttribute('aria-label', t.navTransparency);
+      $('#navTransparencyMin').textContent = t.transparent;
+      $('#navTransparencyMax').textContent = t.opaque;
+      setLabelText('.language-setting', t.language);
+      setLabelText('.vibration-setting', t.vibration);
+      $('#vibrationStatus').textContent = typeof navigator.vibrate === 'function' ? '' : t.vibrationUnsupported;
+      $('.install-row > span').textContent = t.installLabel;
+      $('#settingsInstall').textContent = t.installAction;
+      $('#installBanner > span').textContent = t.installBanner;
+      $('#installBtn').textContent = t.installButton;
+      $('.settings-footer > div:nth-child(2)').firstChild.textContent = t.credit + ' ';
+      $('.settings-footer > div:nth-child(3)').textContent = t.copyright;
+      $('#resultClose').setAttribute('aria-label', t.resultClose);
+      $('#resultTitle').textContent = t.resultTitle;
+      $('#resultOk').textContent = t.resultOk;
+      $('#themeToggle').setAttribute('aria-label', document.documentElement.dataset.theme === 'dark' ? t.lightMode : t.darkMode);
+      $('#language').value = lang;
+      localStorage.setItem('cark-language', lang);
+      render();
+    }
+    $('#language').onchange = () => applyLanguage($('#language').value);
+    applyLanguage(currentLanguage);
+    $('#settingsInstall').onclick = () => toast(translate('installHelp'));
+    window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('#installBanner').classList.add('show') }); $('#installBtn').onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null } else toast(translate('installHelp')) };
     const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || location.search.includes('standalone') || location.search.includes('app'); document.body.classList.toggle('standalone', standalone); if (standalone) document.querySelector('#themeSettingSlot').append($('#themeToggle')); if (!standalone) document.querySelector('.brand-rule').after(document.querySelector('.nav-wrap')); function moveIndicator(tab) { const index = ['wheel', 'coin', 'teams', 'settings'].indexOf(tab); const ind = document.querySelector('.nav-indicator'); if (ind) { ind.style.setProperty('--nav-idx', index >= 0 ? index : 0); ind.style.setProperty('--nav-left', (index * 25) + '%') } }
-    const savedTheme = localStorage.getItem('cark-theme'); const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; function applyTheme(theme) { document.documentElement.dataset.theme = theme; document.body.dataset.theme = theme; const dark = theme === 'dark'; $('#themeToggle').innerHTML = dark ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'; $('#themeToggle').setAttribute('aria-label', dark ? 'Açık moda geç' : 'Koyu moda geç'); $('#themeToggle').setAttribute('aria-pressed', String(dark)); document.querySelector('meta[name="theme-color"]').content = dark ? '#171a16' : '#f4f3ef'; if ($('#wheelCanvas')) render() } applyTheme(savedTheme || (systemDark ? 'dark' : 'light')); $('#themeToggle').onclick = () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('cark-theme', next); applyTheme(next) };
-    function applyNavStyle(style) { document.documentElement.dataset.navStyle = style; document.body.dataset.navStyle = style; localStorage.setItem('cark-nav-style', style); if ($('#navStyle')) $('#navStyle').value = style } const savedNavStyle = localStorage.getItem('cark-nav-style') || 'glass'; applyNavStyle(savedNavStyle); if ($('#navStyle')) $('#navStyle').onchange = () => applyNavStyle($('#navStyle').value);
-    const vibrationSupported = typeof navigator.vibrate === 'function'; const vibrateInput = $('#vibrate'); vibrateInput.checked = localStorage.getItem('cark-vibrate') === 'true' && vibrationSupported; vibrateInput.disabled = !vibrationSupported; $('#vibrationStatus').textContent = vibrationSupported ? '' : 'Bu tarayıcı titreşimi desteklemiyor'; vibrateInput.onchange = () => localStorage.setItem('cark-vibrate', String(vibrateInput.checked)); if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').then(r => r.update()).catch(() => { }));
+    const savedTheme = localStorage.getItem('cark-theme'); const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; function applyTheme(theme) { document.documentElement.dataset.theme = theme; document.body.dataset.theme = theme; const dark = theme === 'dark'; $('#themeToggle').innerHTML = dark ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'; $('#themeToggle').setAttribute('aria-label', dark ? translate('lightMode') : translate('darkMode')); $('#themeToggle').setAttribute('aria-pressed', String(dark)); document.querySelector('meta[name="theme-color"]').content = dark ? '#171a16' : '#f4f3ef'; if ($('#wheelCanvas')) render() } applyTheme(savedTheme || (systemDark ? 'dark' : 'light')); $('#themeToggle').onclick = () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('cark-theme', next); applyTheme(next) };
+    document.documentElement.removeAttribute('data-nav-style');
+    document.body.removeAttribute('data-nav-style');
+    localStorage.removeItem('cark-nav-style');
+    const navTransparency = $('#navTransparency');
+    function applyNavTransparency(value) {
+      const percent = Math.max(0, Math.min(100, Number(value) || 0));
+      const opacity = percent / 100;
+      const low = opacity * (.4 + opacity * .6);
+      const mid = opacity * (.9 + opacity * .1);
+      const pillTop = opacity * (.38 + opacity * .62);
+      const pillBottom = opacity * (.12 + opacity * .88);
+      const root = document.documentElement.style;
+      root.setProperty('--nav-glass-low', low.toFixed(3));
+      root.setProperty('--nav-glass-mid', mid.toFixed(3));
+      root.setProperty('--nav-glass-high', opacity.toFixed(3));
+      root.setProperty('--nav-pill-top', pillTop.toFixed(3));
+      root.setProperty('--nav-pill-bottom', pillBottom.toFixed(3));
+      root.setProperty('--nav-active-alpha', (opacity * .1).toFixed(3));
+      root.setProperty('--nav-active-label', percent >= 55 ? '#20251f' : '#ffffff');
+      $('#navTransparencyValue').textContent = percent + '%';
+      navTransparency.setAttribute('aria-valuetext', percent + '% ' + translate('opacity'));
+      localStorage.setItem('cark-nav-transparency', String(percent));
+    }
+    navTransparency.value = localStorage.getItem('cark-nav-transparency') || '14';
+    navTransparency.addEventListener('input', () => applyNavTransparency(navTransparency.value));
+    applyNavTransparency(navTransparency.value);
+    const vibrationSupported = typeof navigator.vibrate === 'function'; const vibrateInput = $('#vibrate'); vibrateInput.checked = localStorage.getItem('cark-vibrate') === 'true' && vibrationSupported; vibrateInput.disabled = !vibrationSupported; $('#vibrationStatus').textContent = vibrationSupported ? '' : translate('vibrationUnsupported'); vibrateInput.onchange = () => localStorage.setItem('cark-vibrate', String(vibrateInput.checked)); if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').then(r => r.update()).catch(() => { }));
   </script>
 </body>
 

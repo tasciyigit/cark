@@ -1368,6 +1368,217 @@
       color: #f0f2ea
     }
 
+    .cheat-overlay {
+      z-index: 140
+    }
+
+    .cheat-dialog {
+      width: min(100%, 430px);
+      max-height: 88vh;
+      max-height: min(88dvh, 760px);
+      overflow-y: auto;
+      padding: 22px;
+      text-align: left;
+      overscroll-behavior: contain
+    }
+
+    .cheat-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 6px
+    }
+
+    .cheat-dialog .cheat-kicker {
+      margin: 0 0 4px;
+      color: var(--green);
+      text-align: left;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase
+    }
+
+    .cheat-dialog .cheat-title {
+      margin: 0;
+      color: var(--ink);
+      text-align: left;
+      font-size: 21px;
+      letter-spacing: -.45px
+    }
+
+    .cheat-dialog .cheat-intro {
+      margin: 0 36px 16px 0;
+      color: var(--muted);
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.45
+    }
+
+    .cheat-switch {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      cursor: pointer
+    }
+
+    .cheat-switch-copy {
+      display: grid;
+      gap: 3px
+    }
+
+    .cheat-switch-copy strong {
+      color: var(--ink);
+      font-size: 13px
+    }
+
+    .cheat-switch-copy small {
+      color: var(--muted);
+      font-size: 11px
+    }
+
+    .cheat-switch input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0
+    }
+
+    .cheat-switch-ui {
+      position: relative;
+      flex: 0 0 44px;
+      width: 44px;
+      height: 26px;
+      border-radius: 99px;
+      background: #c9ccc2;
+      transition: background .2s ease
+    }
+
+    .cheat-switch-ui::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .18);
+      transition: transform .2s ease
+    }
+
+    .cheat-switch input:checked + .cheat-switch-ui {
+      background: #84a65e
+    }
+
+    .cheat-switch input:checked + .cheat-switch-ui::after {
+      transform: translateX(18px)
+    }
+
+    .cheat-switch input:focus-visible + .cheat-switch-ui {
+      outline: 3px solid #86aaf8;
+      outline-offset: 2px
+    }
+
+    .cheat-section {
+      margin-top: 17px;
+      padding-top: 15px;
+      border-top: 1px solid var(--line)
+    }
+
+    .cheat-section h3 {
+      margin: 0 0 9px;
+      color: var(--ink);
+      font-size: 13px
+    }
+
+    .cheat-field {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .cheat-field select,
+    .cheat-assignment select {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--card);
+      color: var(--ink);
+      font: inherit
+    }
+
+    .cheat-hint,
+    .cheat-empty {
+      margin: 0 0 9px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45
+    }
+
+    .cheat-options,
+    .cheat-assignments {
+      display: grid;
+      gap: 7px
+    }
+
+    .cheat-choice {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--ink);
+      font-size: 12px;
+      overflow-wrap: anywhere
+    }
+
+    .cheat-choice input {
+      flex: 0 0 auto;
+      accent-color: var(--green)
+    }
+
+    .cheat-assignment {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(115px, .7fr);
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 12px
+    }
+
+    [data-theme="dark"] .cheat-switch-ui {
+      background: #51564d
+    }
+
+    [data-theme="dark"] .cheat-switch input:checked + .cheat-switch-ui {
+      background: #88a866
+    }
+
+    @media(max-width:380px) {
+      .cheat-dialog {
+        padding: 18px
+      }
+
+      .cheat-assignment {
+        grid-template-columns: minmax(0, 1fr) minmax(105px, .8fr);
+        gap: 7px
+      }
+    }
+
     @media(prefers-reduced-motion:reduce) {
 
       .nav-indicator,
@@ -1382,7 +1593,9 @@
       .add-row input,
       #teamCount,
       #teamNames,
-      #language {
+      #language,
+      .cheat-field select,
+      .cheat-assignment select {
         font-size: 16px !important
       }
     }
@@ -1519,6 +1732,48 @@
           </svg></span>Ayarlar</button></nav>
   </div>
   <div class="toast" id="toast"></div>
+  <div class="result-overlay cheat-overlay" id="cheatOverlay" hidden aria-hidden="true">
+    <section class="result-dialog cheat-dialog" role="dialog" aria-modal="true" aria-labelledby="cheatTitle"
+      aria-describedby="cheatIntro">
+      <div class="cheat-heading">
+        <div>
+          <p class="cheat-kicker" id="cheatKicker">Özel kontrol</p>
+          <h2 class="cheat-title" id="cheatTitle">Y paneli</h2>
+        </div>
+        <button class="result-close" id="cheatClose" type="button" aria-label="Kapat">×</button>
+      </div>
+      <p class="cheat-intro" id="cheatIntro">Bu cihazdaki sonuç tercihleri.</p>
+      <label class="cheat-switch">
+        <span class="cheat-switch-copy">
+          <strong id="cheatModeLabel">Hile modunu aç</strong>
+          <small id="cheatModeState">Kapalı</small>
+        </span>
+        <input id="cheatEnabled" type="checkbox">
+        <span class="cheat-switch-ui" aria-hidden="true"></span>
+      </label>
+      <section class="cheat-section">
+        <h3 id="cheatCoinHeading">Yazı tura sonucu</h3>
+        <label class="cheat-field"><span id="cheatCoinLabel">Hile açıkken çıkacak taraf</span>
+          <select id="cheatCoinResult">
+            <option value="heads">Yazı</option>
+            <option value="tails">Tura</option>
+          </select>
+        </label>
+      </section>
+      <section class="cheat-section">
+        <h3 id="cheatWheelHeading">Çark sonucu</h3>
+        <p class="cheat-hint" id="cheatWheelHint">Hile açıkken çıkacak seçeneği belirle.</p>
+        <p class="cheat-empty" id="cheatWheelEmpty" hidden></p>
+        <div class="cheat-options" id="cheatWheelOptions"></div>
+      </section>
+      <section class="cheat-section">
+        <h3 id="cheatTeamsHeading">Takım yerleşimi</h3>
+        <p class="cheat-hint" id="cheatTeamsHint">Oyunculara takım ata; boş bıraktıkların rastgele dağıtılsın.</p>
+        <p class="cheat-empty" id="cheatTeamsEmpty" hidden></p>
+        <div class="cheat-assignments" id="cheatTeamAssignments"></div>
+      </section>
+    </section>
+  </div>
   <div class="result-overlay" id="resultOverlay" hidden aria-hidden="true">
     <section class="result-dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle"
       aria-describedby="resultMessage"><button class="result-close" id="resultClose" type="button"
@@ -1553,6 +1808,13 @@
         installButton: 'Ekle', installHelp: 'iPhone/iPad: Paylaş → Ana Ekrana Ekle',
         credit: 'Tasarım & Geliştirme:', copyright: '© 2026 · Her kararın eğlenceli yolu',
         resultClose: 'Kapat', resultTitle: 'Sonuç', resultOk: 'Tamam', mainNavigation: 'Ana navigasyon',
+        ownerControls: 'Özel kontroller', ownerIntro: 'Bu cihazdaki sonuç tercihleri.',
+        cheatModeLabel: 'Hile modunu aç', cheatModeOn: 'Açık', cheatModeOff: 'Kapalı',
+        cheatCoinHeading: 'Yazı tura sonucu', cheatCoinLabel: 'Hile açıkken çıkacak taraf',
+        cheatHeads: 'Yazı', cheatTails: 'Tura', cheatWheelHeading: 'Çark sonucu',
+        cheatWheelHint: 'Hile açıkken çıkacak seçeneği belirle.', cheatWheelEmpty: 'Önce çarka en az bir seçenek ekle.',
+        cheatTeamsHeading: 'Takım yerleşimi', cheatTeamsHint: 'Oyunculara takım ata; boş bıraktıkların rastgele dağıtılsın.',
+        cheatTeamsEmpty: 'Önce Takımlar sekmesinde oyuncu isimlerini yaz.', cheatRandomTeam: 'Rastgele dağıt',
         darkMode: 'Koyu moda geç', lightMode: 'Açık moda geç',
         spinNeedsTwo: 'Çark için en az 2 seçenek ekle', maxOptions: 'En fazla 16 seçenek ekleyebilirsin',
         pageTitle: 'Çark — Karar vermenin eğlenceli yolu',
@@ -1579,6 +1841,13 @@
         installButton: 'Add', installHelp: 'iPhone/iPad: Share → Add to Home Screen',
         credit: 'Design & Development:', copyright: '© 2026 · A fun way to make every choice',
         resultClose: 'Close', resultTitle: 'Result', resultOk: 'Done', mainNavigation: 'Main navigation',
+        ownerControls: 'Private controls', ownerIntro: 'Outcome preferences for this device.',
+        cheatModeLabel: 'Enable cheat mode', cheatModeOn: 'On', cheatModeOff: 'Off',
+        cheatCoinHeading: 'Coin toss result', cheatCoinLabel: 'Side to force while enabled',
+        cheatHeads: 'Heads', cheatTails: 'Tails', cheatWheelHeading: 'Wheel result',
+        cheatWheelHint: 'Choose the option to land on while enabled.', cheatWheelEmpty: 'Add at least one wheel option first.',
+        cheatTeamsHeading: 'Team assignments', cheatTeamsHint: 'Assign players to teams; unassigned players are placed randomly.',
+        cheatTeamsEmpty: 'Enter player names on the Teams tab first.', cheatRandomTeam: 'Assign randomly',
         darkMode: 'Switch to dark mode', lightMode: 'Switch to light mode',
         spinNeedsTwo: 'Add at least 2 options to spin the wheel', maxOptions: 'You can add up to 16 options',
         pageTitle: 'Çark — A fun way to make decisions',
@@ -1621,12 +1890,54 @@
       if (Math.abs(dx) < 64 || Math.abs(dx) < Math.abs(dy) * 1.35) return;
       const currentIndex = swipeTabs.findIndex(tab => document.querySelector('[data-tab="' + tab + '"]')?.classList.contains('active'));
       if (currentIndex < 0) return;
-      const nextIndex = Math.max(0, Math.min(swipeTabs.length - 1, currentIndex + (dx > 0 ? 1 : -1)));
+      const nextIndex = Math.max(0, Math.min(swipeTabs.length - 1, currentIndex + (dx < 0 ? 1 : -1)));
       if (nextIndex !== currentIndex) go(swipeTabs[nextIndex])
     }, { passive: true });
     document.addEventListener('touchcancel', () => { swipeStart = null }, { passive: true });
+    let cheatEnabled = false;
     $('#addForm').onsubmit = e => { e.preventDefault(); let v = $('#nameInput').value.trim(); if (!v) return; if (names.length >= 16) { toast(translate('maxOptions')); return } names.push(v); $('#nameInput').value = ''; save() }; $('#clearNames').onclick = () => { names = []; save() };
-    $('#spin').onclick = () => { if (spinning) return; if (names.length < 2) { toast(translate('spinNeedsTwo')); return } spinning = true; const winner = Math.floor(Math.random() * names.length), each = 360 / names.length; const desired = ((360 - (winner + .5) * each) % 360 + 360) % 360; const current = ((wheelRotation % 360) + 360) % 360; wheelRotation += 1800 + ((desired - current + 360) % 360); $('#wheel').style.transform = 'rotate(' + wheelRotation + 'deg)'; requestAnimationFrame(animateLabels); setTimeout(() => { spinning = false; drawLabels(wheelRotation % 360); showResult(translate('wheelResultTitle'), names[winner] + ' ' + translate('winnerVerb'), '#spin'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(60) }, 4550) }; let coinBusy = false, coinSide = 0; $('#flip').onclick = () => { if (coinBusy) return; coinBusy = true; const desired = Math.random() < .5 ? 0 : 1, result = desired ? translate('tails') : translate('heads'), start = coinSide * 180, turns = 6 + ((desired - (coinSide % 2) + 2) % 2); coinSide += turns; const end = coinSide * 180, c = $('#coin'); c.getAnimations().forEach(animation => animation.cancel()); c.animate([{ transform: 'rotateY(' + start + 'deg)' }, { transform: 'rotateY(' + end + 'deg)' }], { duration: 1450, easing: 'cubic-bezier(.18,.72,.22,1)', fill: 'forwards' }).onfinish = () => { coinBusy = false; showResult(translate('coinResultTitle'), result + '!', '#flip'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(50) } }; const samplePlayers = ['Bade', 'Yiğit', 'Meryem', 'Mustafa', 'Alara', 'Bekir', 'Şule', 'Cenk']; $('#teamNames').placeholder = samplePlayers.join('\n'); const sessionPlayers = sessionStorage.getItem('cark-team-names'); $('#teamNames').value = sessionPlayers || ''; $('#teamNames').addEventListener('input', e => sessionStorage.setItem('cark-team-names', e.target.value)); $('#makeTeams').onclick = () => { const players = $('#teamNames').value.split(/\n|,/).map(x => x.trim()).filter(Boolean), count = Math.floor(Number($('#teamCount').value)); if (players.length < 2) { toast(translate('teamNeedTwo')); return } if (!Number.isFinite(count) || count < 2 || count > 20) { toast(translate('teamCountRange')); return } if (count > players.length) { toast(translate('teamCountTooHigh')); return } sessionStorage.setItem('cark-team-names', $('#teamNames').value); const shuffled = [...players]; for (let i = shuffled.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]] } const teams = Array.from({ length: count }, () => []); shuffled.forEach((n, i) => teams[i % count].push(n)); $('#teamOutput').innerHTML = teams.map((t, i) => `<div class="team-box"><h3>${translate('teamLabel').replace('{n}', i + 1)}</h3>${t.map(n => `<div>${escapeHtml(n)}</div>`).join('')}</div>`).join('') };
+    $('#spin').onclick = () => { if (spinning) return; if (names.length < 2) { toast(translate('spinNeedsTwo')); return } spinning = true; const forcedWheelTarget = cheatEnabled ? localStorage.getItem('cark-cheat-wheel-target') : null;
+      const forcedWheelIndex = forcedWheelTarget ? names.indexOf(forcedWheelTarget) : -1;
+      const winner = forcedWheelIndex >= 0 ? forcedWheelIndex : Math.floor(Math.random() * names.length), each = 360 / names.length; const desired = ((360 - (winner + .5) * each) % 360 + 360) % 360; const current = ((wheelRotation % 360) + 360) % 360; wheelRotation += 1800 + ((desired - current + 360) % 360); $('#wheel').style.transform = 'rotate(' + wheelRotation + 'deg)'; requestAnimationFrame(animateLabels); setTimeout(() => { spinning = false; drawLabels(wheelRotation % 360); showResult(translate('wheelResultTitle'), names[winner] + ' ' + translate('winnerVerb'), '#spin'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(60) }, 4550) }; let coinBusy = false, coinSide = 0; $('#flip').onclick = () => { if (coinBusy) return; coinBusy = true; const desired = cheatEnabled ? (localStorage.getItem('cark-cheat-coin') === 'tails' ? 1 : 0) : (Math.random() < .5 ? 0 : 1), result = desired ? translate('tails') : translate('heads'), start = coinSide * 180, turns = 6 + ((desired - (coinSide % 2) + 2) % 2); coinSide += turns; const end = coinSide * 180, c = $('#coin'); c.getAnimations().forEach(animation => animation.cancel()); c.animate([{ transform: 'rotateY(' + start + 'deg)' }, { transform: 'rotateY(' + end + 'deg)' }], { duration: 1450, easing: 'cubic-bezier(.18,.72,.22,1)', fill: 'forwards' }).onfinish = () => { coinBusy = false; showResult(translate('coinResultTitle'), result + '!', '#flip'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(50) } }; const samplePlayers = ['Bade', 'Yiğit', 'Meryem', 'Mustafa', 'Alara', 'Bekir', 'Şule', 'Cenk']; $('#teamNames').placeholder = samplePlayers.join('\n'); const sessionPlayers = sessionStorage.getItem('cark-team-names'); $('#teamNames').value = sessionPlayers || ''; $('#teamNames').addEventListener('input', e => sessionStorage.setItem('cark-team-names', e.target.value)); $('#makeTeams').onclick = () => { const players = $('#teamNames').value.split(/\n|,/).map(x => x.trim()).filter(Boolean), count = Math.floor(Number($('#teamCount').value)); if (players.length < 2) { toast(translate('teamNeedTwo')); return } if (!Number.isFinite(count) || count < 2 || count > 20) { toast(translate('teamCountRange')); return } if (count > players.length) { toast(translate('teamCountTooHigh')); return } sessionStorage.setItem('cark-team-names', $('#teamNames').value); const teams = Array.from({ length: count }, () => []);
+      if (cheatEnabled) {
+        const overrides = readCheatTeamAssignments();
+        const unassigned = [];
+        let fixedCount = 0;
+        players.forEach(name => {
+          const hasTeam = Object.prototype.hasOwnProperty.call(overrides, name) && overrides[name] !== '';
+          const teamIndex = Number(overrides[name]);
+          if (hasTeam && Number.isInteger(teamIndex) && teamIndex >= 0 && teamIndex < count) {
+            teams[teamIndex].push(name);
+            fixedCount++
+          } else unassigned.push(name)
+        });
+        if (fixedCount > 0) {
+          for (let i = unassigned.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [unassigned[i], unassigned[j]] = [unassigned[j], unassigned[i]]
+          }
+          unassigned.forEach(name => {
+            const smallest = Math.min(...teams.map(team => team.length));
+            const candidates = teams.map((team, index) => team.length === smallest ? index : -1).filter(index => index >= 0);
+            teams[candidates[Math.floor(Math.random() * candidates.length)]].push(name)
+          })
+        } else {
+          const shuffled = [...players];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+          }
+          shuffled.forEach((name, i) => teams[i % count].push(name))
+        }
+      } else {
+        const shuffled = [...players];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+        }
+        shuffled.forEach((name, i) => teams[i % count].push(name))
+      }
+      $('#teamOutput').innerHTML = teams.map((t, i) => `<div class="team-box"><h3>${translate('teamLabel').replace('{n}', i + 1)}</h3>${t.map(n => `<div>${escapeHtml(n)}</div>`).join('')}</div>`).join('') };
     function setLabelText(selector, value) { const el = $(selector); if (!el) return; const text = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim()); if (text) text.textContent = ' ' + value + ' ' }
     function applyLanguage(lang) {
       if (!translations[lang]) lang = 'tr';
@@ -1693,6 +2004,100 @@
     $('#language').onchange = () => applyLanguage($('#language').value);
     applyLanguage(currentLanguage);
     $('#settingsInstall').onclick = () => toast(translate('installHelp'));
+    function readCheatTeamAssignments() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('cark-cheat-team-assignments') || '{}');
+        return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {}
+      } catch (error) {
+        return {}
+      }
+    }
+    function renderCheatPanel() {
+      const t = translations[currentLanguage] || translations.tr;
+      $('#cheatKicker').textContent = t.ownerControls.toUpperCase();
+      $('#cheatTitle').textContent = t.ownerControls;
+      $('#cheatIntro').textContent = t.ownerIntro;
+      $('#cheatModeLabel').textContent = t.cheatModeLabel;
+      $('#cheatModeState').textContent = cheatEnabled ? t.cheatModeOn : t.cheatModeOff;
+      $('#cheatClose').setAttribute('aria-label', t.resultClose);
+      $('#cheatCoinHeading').textContent = t.cheatCoinHeading;
+      $('#cheatCoinLabel').textContent = t.cheatCoinLabel;
+      $('#cheatCoinResult').querySelector('[value="heads"]').textContent = t.cheatHeads;
+      $('#cheatCoinResult').querySelector('[value="tails"]').textContent = t.cheatTails;
+      const savedCoin = localStorage.getItem('cark-cheat-coin');
+      $('#cheatCoinResult').value = savedCoin === 'tails' ? 'tails' : 'heads';
+      $('#cheatWheelHeading').textContent = t.cheatWheelHeading;
+      $('#cheatWheelHint').textContent = t.cheatWheelHint;
+      $('#cheatWheelEmpty').textContent = t.cheatWheelEmpty;
+      const wheelTarget = localStorage.getItem('cark-cheat-wheel-target') || '';
+      if (wheelTarget && !names.includes(wheelTarget)) localStorage.removeItem('cark-cheat-wheel-target');
+      $('#cheatWheelEmpty').hidden = names.length > 0;
+      $('#cheatWheelOptions').innerHTML = names.map((name, index) => '<label class="cheat-choice"><input type="radio" name="cheat-wheel-choice" value="' + index + '"' + (name === wheelTarget ? ' checked' : '') + '><span>' + escapeHtml(name) + '</span></label>').join('');
+      $('#cheatTeamsHeading').textContent = t.cheatTeamsHeading;
+      $('#cheatTeamsHint').textContent = t.cheatTeamsHint;
+      $('#cheatTeamsEmpty').textContent = t.cheatTeamsEmpty;
+      const players = $('#teamNames').value.split(/\n|,/).map(name => name.trim()).filter(Boolean);
+      const teamCount = Math.max(2, Math.min(20, Math.floor(Number($('#teamCount').value) || 2)));
+      const assignments = readCheatTeamAssignments();
+      $('#cheatTeamsEmpty').hidden = players.length > 0;
+      $('#cheatTeamAssignments').innerHTML = players.map((name, index) => {
+        const hasSavedTeam = Object.prototype.hasOwnProperty.call(assignments, name);
+        const savedTeam = hasSavedTeam ? String(assignments[name]) : '';
+        const options = Array.from({ length: teamCount }, (_, teamIndex) => '<option value="' + teamIndex + '"' + (savedTeam === String(teamIndex) ? ' selected' : '') + '>' + escapeHtml(t.teamLabel.replace('{n}', teamIndex + 1)) + '</option>').join('');
+        return '<label class="cheat-assignment"><span>' + escapeHtml(name) + '</span><select data-player-index="' + index + '"><option value="">' + escapeHtml(t.cheatRandomTeam) + '</option>' + options + '</select></label>'
+      }).join('');
+      $('#cheatEnabled').checked = cheatEnabled
+    }
+    function openCheatPanel() {
+      clearTimeout(cheatCloseTimer);
+      renderCheatPanel();
+      const overlay = $('#cheatOverlay');
+      overlay.hidden = false;
+      overlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        overlay.classList.add('show');
+        $('#cheatClose').focus()
+      })
+    }
+    let cheatCloseTimer = 0;
+    function closeCheatPanel() {
+      const overlay = $('#cheatOverlay');
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+      clearTimeout(cheatCloseTimer);
+      cheatCloseTimer = setTimeout(() => {
+        overlay.hidden = true;
+        $('#profileButton').focus()
+      }, 240)
+    }
+    $('#profileButton').addEventListener('click', openCheatPanel);
+    $('#cheatClose').addEventListener('click', closeCheatPanel);
+    $('#cheatOverlay').addEventListener('click', event => {
+      if (event.target === $('#cheatOverlay')) closeCheatPanel()
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !$('#cheatOverlay').hidden) closeCheatPanel()
+    });
+    $('#cheatEnabled').addEventListener('change', event => {
+      cheatEnabled = event.target.checked;
+      $('#cheatModeState').textContent = translate(cheatEnabled ? 'cheatModeOn' : 'cheatModeOff')
+    });
+    $('#cheatCoinResult').addEventListener('change', event => localStorage.setItem('cark-cheat-coin', event.target.value));
+    $('#cheatWheelOptions').addEventListener('change', event => {
+      if (!event.target.matches('input[name="cheat-wheel-choice"]')) return;
+      const index = Number(event.target.value);
+      if (names[index] !== undefined) localStorage.setItem('cark-cheat-wheel-target', names[index])
+    });
+    $('#cheatTeamAssignments').addEventListener('change', event => {
+      if (!event.target.matches('select[data-player-index]')) return;
+      const index = Number(event.target.dataset.playerIndex);
+      const player = $('#teamNames').value.split(/\n|,/).map(name => name.trim()).filter(Boolean)[index];
+      if (!player) return;
+      const assignments = readCheatTeamAssignments();
+      if (event.target.value === '') delete assignments[player];
+      else assignments[player] = Number(event.target.value);
+      localStorage.setItem('cark-cheat-team-assignments', JSON.stringify(assignments))
+    });
     window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('#installBanner').classList.add('show') }); $('#installBtn').onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null } else toast(translate('installHelp')) };
     const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || location.search.includes('standalone') || location.search.includes('app'); document.body.classList.toggle('standalone', standalone); if (standalone) document.querySelector('#themeSettingSlot').append($('#themeToggle')); if (!standalone) document.querySelector('.brand-rule').after(document.querySelector('.nav-wrap')); function moveIndicator(tab) { const index = ['wheel', 'coin', 'teams', 'settings'].indexOf(tab); const ind = document.querySelector('.nav-indicator'); if (ind) { ind.style.setProperty('--nav-idx', index >= 0 ? index : 0); ind.style.setProperty('--nav-left', (index * 25) + '%') } }
     const savedTheme = localStorage.getItem('cark-theme'); const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; function applyTheme(theme) { document.documentElement.dataset.theme = theme; document.body.dataset.theme = theme; const dark = theme === 'dark'; $('#themeToggle').innerHTML = dark ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'; $('#themeToggle').setAttribute('aria-label', dark ? translate('lightMode') : translate('darkMode')); $('#themeToggle').setAttribute('aria-pressed', String(dark)); document.querySelector('meta[name="theme-color"]').content = dark ? '#171a16' : '#f4f3ef'; if ($('#wheelCanvas')) render() } applyTheme(savedTheme || (systemDark ? 'dark' : 'light')); $('#themeToggle').onclick = () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('cark-theme', next); applyTheme(next) };

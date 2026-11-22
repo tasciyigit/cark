@@ -32,6 +32,10 @@
       box-sizing: border-box
     }
 
+    [hidden] {
+      display: none !important
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -609,6 +613,11 @@
       margin-top: 8px
     }
 
+    #vibrationTest:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
     .toggle {
       accent-color: #657e4d;
       width: 18px;
@@ -986,6 +995,27 @@
       -webkit-backdrop-filter: blur(1.5px);
     }
 
+    /* Let the active glass pill stretch between tabs, then settle into place. */
+    body.standalone .nav-indicator {
+      left: var(--nav-left, 0%);
+      width: 25%;
+      transform: none;
+      transition: none;
+      will-change: left, width
+    }
+
+    #reshuffleTeams {
+      margin-top: 12px;
+      min-height: 47px;
+      background: #edf1e6;
+      color: #526a3c
+    }
+
+    [data-theme="dark"] #reshuffleTeams {
+      background: #30392a;
+      color: #d7f39a
+    }
+
     @media(max-width:370px) {
       body.standalone .nav-wrap {
         width: calc(100% - 18px);
@@ -1330,13 +1360,114 @@
     }
 
     .result-ok {
-      width: 100%;
+      flex: 1;
       border: 0;
       border-radius: 15px;
       padding: 13px;
       background: #20251f;
       color: white;
       font-weight: 700
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 3px
+    }
+
+    .result-repeat {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 12px 9px;
+      background: var(--card);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700
+    }
+
+    .remove-winner-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: -7px 0 17px;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer
+    }
+
+    .remove-winner-row input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--green)
+    }
+
+    .tour-overlay {
+      z-index: 150
+    }
+
+    .tour-dialog {
+      width: min(100%, 360px);
+      text-align: left;
+      padding: 25px 22px 20px
+    }
+
+    .tour-progress {
+      color: var(--green) !important;
+      font-size: 11px !important;
+      font-weight: 750;
+      letter-spacing: .8px;
+      margin-bottom: 9px !important
+    }
+
+    .tour-dialog h2 {
+      margin: 0 0 9px;
+      font-size: 22px
+    }
+
+    .tour-dialog .tour-copy {
+      min-height: 48px;
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5
+    }
+
+    .tour-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .tour-skip {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 8px;
+      font-size: 12px;
+      font-weight: 650
+    }
+
+    .tour-next {
+      min-width: 112px;
+      border: 0;
+      border-radius: 13px;
+      padding: 11px 15px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 12px;
+      font-weight: 700
+    }
+
+    [data-theme="dark"] .tour-next {
+      background: #c6e678;
+      color: #20251f
+    }
+
+    [data-theme="dark"] .result-repeat {
+      border-color: var(--line)
     }
 
     [data-theme="dark"] .result-overlay {
@@ -1594,6 +1725,7 @@
       #teamCount,
       #teamNames,
       #language,
+      #launchPreference,
       .cheat-field select,
       .cheat-assignment select {
         font-size: 16px !important
@@ -1672,6 +1804,7 @@
             style="width:100%;min-height:205px;line-height:1.4;font-size:14px;resize:vertical;border:1px solid #e4e5dd;border-radius:14px;padding:12px;background:#fff;color:#20251f"></textarea></label><button
           class="spin" id="makeTeams"><b>✦</b> Takımları oluştur</button>
         <div class="team-output" id="teamOutput"></div>
+        <button class="spin" id="reshuffleTeams" type="button" hidden>Tekrar karıştır</button>
       </div>
     </section>
     <section class="view" id="view-settings">
@@ -1679,6 +1812,7 @@
         <div class="eyebrow">Kişiselleştir</div>
         <h2>Ayarlar</h2>
         <p>Çark'ı kendine göre düzenle.</p>
+        <label class="setting-row" for="launchPreference"><span id="launchPreferenceLabel">Açılış sekmesi</span><select class="select" id="launchPreference"><option value="wheel">Çark</option><option value="last">Son kullanılan</option></select></label>
         <div class="setting-row setting-theme-row"><span>Görünüm</span><span id="themeSettingSlot"></span></div>
         <label class="setting-row nav-opacity-row">
           <span id="navTransparencyLabel">Navigasyon saydamlığı</span>
@@ -1696,7 +1830,9 @@
             <option value="tr">Türkçe</option>
             <option value="en">English</option>
           </select></label><label class="setting-row vibration-setting">Titreşim <span class="vibration-control"><input type="checkbox"
-              class="toggle" id="vibrate"><small id="vibrationStatus"></small></span></label>
+          class="toggle" id="vibrate"><small id="vibrationStatus"></small></span></label>
+        <div class="setting-row vibration-test-row"><span id="vibrationTestHint">Titreşimi dene</span><button class="text-button" id="vibrationTest" type="button">Dene</button></div>
+        <div class="setting-row tour-setting-row"><span id="tourSettingLabel">Kısa kullanım turu</span><button class="text-button" id="tourStart" type="button">Göster</button></div>
         <div class="setting-row install-row" style="border-bottom:0"><span>Ana ekrana ekle</span><button class="text-button"
             id="settingsInstall">Nasıl yapılır?</button></div>
         <div class="settings-footer"
@@ -1779,7 +1915,16 @@
       aria-describedby="resultMessage"><button class="result-close" id="resultClose" type="button"
         aria-label="Kapat">×</button><span class="result-spark" aria-hidden="true">✦</span>
       <p id="resultTitle">Sonuç</p>
-      <h2 id="resultMessage"></h2><button class="result-ok" id="resultOk" type="button">Tamam</button>
+      <h2 id="resultMessage"></h2>
+      <label class="remove-winner-row" id="removeWinnerRow" hidden><input type="checkbox" id="removeWinnerToggle"><span id="removeWinnerLabel">Kazananı listeden çıkar</span></label>
+      <div class="result-actions"><button class="result-repeat" id="resultRepeat" type="button" hidden>Tekrar çevir</button><button class="result-ok" id="resultOk" type="button">Tamam</button></div>
+    </section>
+  </div>
+  <div class="result-overlay tour-overlay" id="tourOverlay" hidden aria-hidden="true">
+    <section class="result-dialog tour-dialog" role="dialog" aria-modal="true" aria-labelledby="tourTitle" aria-describedby="tourCopy">
+      <p class="tour-progress" id="tourProgress"></p><h2 id="tourTitle">Kısa kullanım turu</h2>
+      <p class="tour-copy" id="tourCopy"></p>
+      <div class="tour-actions"><button class="tour-skip" id="tourSkip" type="button">Atla</button><button class="tour-next" id="tourNext" type="button">İleri</button></div>
     </section>
   </div>
   <script>
@@ -1803,7 +1948,17 @@
         teamCountTooHigh: 'Takım sayısı oyuncu sayısını aşamaz', profile: 'Profil', opacity: 'opaklık', settingsEyebrow: 'Kişiselleştir',
         settingsTitle: 'Ayarlar', settingsCopy: "Çark'ı kendine göre düzenle.", appearance: 'Görünüm',
         navTransparency: 'Navigasyon saydamlığı', transparent: 'Şeffaf', opaque: 'Opak', language: 'Dil',
-        vibration: 'Titreşim', vibrationUnsupported: 'Bu tarayıcı titreşimi desteklemiyor',
+        vibration: 'Titreşim', vibrationUnsupported: 'Bu tarayıcı titreşimi desteklemiyor', vibrationIosUnsupported: 'iPhone webde sonuç titreşimi desteklenmiyor.',
+        vibrationTest: 'Titreşimi dene', vibrationTestAction: 'Dene', vibrationTestOk: 'Titreşim isteği gönderildi',
+        launchPreference: 'Açılış sekmesi', launchWheel: 'Çark', launchLast: 'Son kullanılan',
+        reshuffle: 'Tekrar karıştır', removeWinner: 'Kazananı listeden çıkar', repeatWheel: 'Tekrar çevir',
+        tourSetting: 'Kısa kullanım turu', tourStart: 'Göster', tourSkip: 'Atla', tourNext: 'İleri', tourDone: 'Bitti',
+        tourTitle: 'Kısa kullanım turu', tourStep: 'ADIM {n} / 5',
+        tourWheelTitle: 'Çarkı kullan', tourWheelCopy: 'Seçenekleri listeden ekle veya sil. Çarkı çevirerek sonucu gör.',
+        tourNavigationTitle: 'Sekmeler arasında gezin', tourNavigationCopy: 'Alt menüden bir bölüme dokunabilir veya sağa sola kaydırarak diğer sekmelere geçebilirsin.',
+        tourCoinTitle: 'Yazı tura', tourCoinCopy: 'Kararı paraya bırak; her dokunuş yeni bir atış yapar.',
+        tourTeamsTitle: 'Takımları kur', tourTeamsCopy: 'Oyuncuları satır satır yaz, takım sayısını seç ve dağıt. Sonra yeniden karıştırabilirsin.',
+        tourInstallTitle: 'Ana ekrana ekle', tourInstallCopy: 'Safari paylaş menüsünden Ana Ekrana Ekle’yi seçerek uygulama gibi açabilirsin.',
         installLabel: 'Ana ekrana ekle', installAction: 'Nasıl yapılır?', installBanner: "Çark'ı ana ekranına ekle, uygulama gibi kullan.",
         installButton: 'Ekle', installHelp: 'iPhone/iPad: Paylaş → Ana Ekrana Ekle',
         credit: 'Tasarım & Geliştirme:', copyright: '© 2026 · Her kararın eğlenceli yolu',
@@ -1836,7 +1991,17 @@
         teamCountTooHigh: 'The number of teams cannot exceed the number of players', profile: 'Profile', opacity: 'opacity',
         settingsEyebrow: 'Personalize', settingsTitle: 'Settings', settingsCopy: 'Make Çark your own.',
         appearance: 'Appearance', navTransparency: 'Navigation bar opacity', transparent: 'Transparent', opaque: 'Opaque',
-        language: 'Language', vibration: 'Haptics', vibrationUnsupported: 'Vibration is not supported by this browser',
+        language: 'Language', vibration: 'Haptics', vibrationUnsupported: 'Vibration is not supported by this browser', vibrationIosUnsupported: 'Result haptics are unavailable in iPhone web apps.',
+        vibrationTest: 'Test haptics', vibrationTestAction: 'Test', vibrationTestOk: 'Vibration request sent',
+        launchPreference: 'Start tab', launchWheel: 'Wheel', launchLast: 'Last used',
+        reshuffle: 'Shuffle again', removeWinner: 'Remove winner from the list', repeatWheel: 'Spin again',
+        tourSetting: 'Quick guide', tourStart: 'Show', tourSkip: 'Skip', tourNext: 'Next', tourDone: 'Done',
+        tourTitle: 'Quick guide', tourStep: 'STEP {n} / 5',
+        tourWheelTitle: 'Use the wheel', tourWheelCopy: 'Add or remove options in the list, then spin the wheel to see the result.',
+        tourNavigationTitle: 'Move between tabs', tourNavigationCopy: 'Tap a section in the bottom bar or swipe sideways to move to the next or previous tab.',
+        tourCoinTitle: 'Coin toss', tourCoinCopy: 'Leave the choice to the coin. Each tap starts a fresh toss.',
+        tourTeamsTitle: 'Create teams', tourTeamsCopy: 'Enter one player per line, choose the team count, then create or reshuffle the teams.',
+        tourInstallTitle: 'Add to Home Screen', tourInstallCopy: 'In Safari, use Share → Add to Home Screen to open Çark like an app.',
         installLabel: 'Add to Home Screen', installAction: 'How to install?', installBanner: 'Add Çark to your Home Screen and use it like an app.',
         installButton: 'Add', installHelp: 'iPhone/iPad: Share → Add to Home Screen',
         credit: 'Design & Development:', copyright: '© 2026 · A fun way to make every choice',
@@ -1858,7 +2023,56 @@
     const translate = key => (translations[currentLanguage] && translations[currentLanguage][key]) || translations.tr[key] || key;
     let names = JSON.parse(sessionStorage.getItem('cark-names') || 'null') || [...defaults]; let spinning = false; let deferredPrompt = null;
     const $ = s => document.querySelector(s); const toast = t => { const e = $('#toast'); e.textContent = t; e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 2200) };
-    function showResult(title, message, refocusSelector) { const overlay = $('#resultOverlay'); $('#resultTitle').textContent = title; $('#resultMessage').textContent = message; overlay.hidden = false; requestAnimationFrame(() => { overlay.classList.add('show'); overlay.setAttribute('aria-hidden', 'false') }); const close = () => { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); setTimeout(() => { overlay.hidden = true }, 240); if (refocusSelector) { const el = $(refocusSelector); if (el) el.focus() } }; $('#resultClose').onclick = close; $('#resultOk').onclick = close; overlay.onclick = e => { if (e.target === overlay) close() } }
+    let currentWheelWinner = null;
+    let resultRefocusSelector = '#spin';
+    function closeResult() {
+      const overlay = $('#resultOverlay');
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+      setTimeout(() => {
+        overlay.hidden = true;
+        currentWheelWinner = null;
+        const returnFocus = $(resultRefocusSelector);
+        if (returnFocus) returnFocus.focus()
+      }, 240)
+    }
+    function removeWheelWinner(winner) {
+      const index = names.indexOf(winner);
+      if (index < 0) return;
+      names.splice(index, 1);
+      wheelRotation = 0;
+      const wheel = $('#wheel');
+      wheel.style.transition = 'none';
+      wheel.style.transform = 'rotate(0deg)';
+      save();
+      requestAnimationFrame(() => { wheel.style.transition = '' })
+    }
+    function showResult(title, message, refocusSelector, options = {}) {
+      const overlay = $('#resultOverlay');
+      currentWheelWinner = options.wheelWinner || null;
+      resultRefocusSelector = refocusSelector || '#spin';
+      $('#resultTitle').textContent = title;
+      $('#resultMessage').textContent = message;
+      $('#removeWinnerRow').hidden = !currentWheelWinner;
+      $('#removeWinnerToggle').checked = currentWheelWinner && localStorage.getItem('cark-remove-winner') === 'true';
+      $('#resultRepeat').hidden = !currentWheelWinner;
+      overlay.hidden = false;
+      requestAnimationFrame(() => { overlay.classList.add('show'); overlay.setAttribute('aria-hidden', 'false') });
+      if (currentWheelWinner && $('#removeWinnerToggle').checked) removeWheelWinner(currentWheelWinner);
+      const close = () => closeResult();
+      $('#resultClose').onclick = close;
+      $('#resultOk').onclick = close;
+      overlay.onclick = e => { if (e.target === overlay) close() };
+    }
+    $('#removeWinnerToggle').addEventListener('change', event => {
+      localStorage.setItem('cark-remove-winner', String(event.target.checked));
+      if (event.target.checked && currentWheelWinner) removeWheelWinner(currentWheelWinner)
+    });
+    $('#resultRepeat').addEventListener('click', () => {
+      if (names.length < 2) { toast(translate('spinNeedsTwo')); return }
+      closeResult();
+      setTimeout(spinWheel, 240)
+    });
     function save() { sessionStorage.setItem('cark-names', JSON.stringify(names)); render() }
     let wheelRotation = 0;
     function fitText(ctx, text, maxWidth) { let out = String(text); while (out.length > 1 && ctx.measureText(out).width > maxWidth) out = out.slice(0, -2) + '…'; return out }
@@ -1868,7 +2082,36 @@
     window.addEventListener('resize', render);
     function escapeHtml(s) { return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
     render();
-    document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => go(b.dataset.tab)); document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go)); function go(tab) { const tabs = ['wheel', 'coin', 'teams', 'settings'], oldIndex = tabs.findIndex(t => document.querySelector('[data-tab=\"' + t + '\"]')?.classList.contains('active')), newIndex = tabs.indexOf(tab); document.querySelectorAll('.view').forEach(v => { const active = v.id === 'view-' + tab; v.classList.toggle('active', active); if (active) { v.classList.remove('slide-left', 'slide-right'); v.classList.add(newIndex >= oldIndex ? 'slide-right' : 'slide-left') } }); document.querySelectorAll('[data-tab]').forEach(b => { const active = b.dataset.tab === tab; b.classList.toggle('active', active); if (active) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current') }); moveIndicator(tab); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); if (tab === 'wheel') requestAnimationFrame(render) } moveIndicator('wheel');
+    document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => go(b.dataset.tab));
+    document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go));
+    // Keep tab changes in one place so launch preference and the glass indicator stay in sync.
+    function go(tab, options = {}) {
+      const tabs = ['wheel', 'coin', 'teams', 'settings'];
+      const oldIndex = tabs.findIndex(name => document.querySelector('[data-tab="' + name + '"]')?.classList.contains('active'));
+      const newIndex = tabs.indexOf(tab);
+      if (newIndex < 0) return;
+      document.querySelectorAll('.view').forEach(view => {
+        const active = view.id === 'view-' + tab;
+        view.classList.toggle('active', active);
+        if (active && options.animate !== false) {
+          view.classList.remove('slide-left', 'slide-right');
+          view.classList.add(newIndex >= oldIndex ? 'slide-right' : 'slide-left')
+        } else if (active) view.classList.remove('slide-left', 'slide-right')
+      });
+      document.querySelectorAll('[data-tab]').forEach(button => {
+        const active = button.dataset.tab === tab;
+        button.classList.toggle('active', active);
+        if (active) button.setAttribute('aria-current', 'page');
+        else button.removeAttribute('aria-current')
+      });
+      moveIndicator(tab, options.animate !== false, oldIndex);
+      if (options.persist !== false) localStorage.setItem('cark-last-tab', tab);
+      if (options.scroll !== false) window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tab === 'wheel') requestAnimationFrame(render)
+    }
+    const initialLaunchMode = localStorage.getItem('cark-launch-preference') || 'wheel';
+    const initialTab = initialLaunchMode === 'last' ? localStorage.getItem('cark-last-tab') || 'wheel' : 'wheel';
+    go(initialTab, { persist: false, scroll: false, animate: false });
     let swipeStart = null;
     const swipeTabs = ['wheel', 'coin', 'teams', 'settings'];
     document.addEventListener('touchstart', event => {
@@ -1938,6 +2181,61 @@
         shuffled.forEach((name, i) => teams[i % count].push(name))
       }
       $('#teamOutput').innerHTML = teams.map((t, i) => `<div class="team-box"><h3>${translate('teamLabel').replace('{n}', i + 1)}</h3>${t.map(n => `<div>${escapeHtml(n)}</div>`).join('')}</div>`).join('') };
+    function spinWheel() {
+      if (spinning) return;
+      if (names.length < 2) { toast(translate('spinNeedsTwo')); return }
+      spinning = true;
+      const forced = cheatEnabled ? localStorage.getItem('cark-cheat-wheel-target') : null;
+      const forcedIndex = forced ? names.indexOf(forced) : -1;
+      const winner = forcedIndex >= 0 ? forcedIndex : Math.floor(Math.random() * names.length);
+      const winnerName = names[winner];
+      const each = 360 / names.length;
+      const desired = ((360 - (winner + .5) * each) % 360 + 360) % 360;
+      const current = ((wheelRotation % 360) + 360) % 360;
+      wheelRotation += 1800 + ((desired - current + 360) % 360);
+      $('#wheel').style.transform = 'rotate(' + wheelRotation + 'deg)';
+      requestAnimationFrame(animateLabels);
+      setTimeout(() => {
+        spinning = false;
+        drawLabels(wheelRotation % 360);
+        showResult(translate('wheelResultTitle'), winnerName + ' ' + translate('winnerVerb'), '#spin', { wheelWinner: winnerName });
+        playVibration(60)
+      }, 4550)
+    }
+    $('#spin').onclick = spinWheel;
+    function shuffleList(items) {
+      const shuffled = [...items];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      return shuffled
+    }
+    function createTeams() {
+      const players = $('#teamNames').value.split(/\n|,/).map(name => name.trim()).filter(Boolean);
+      const count = Math.floor(Number($('#teamCount').value));
+      if (players.length < 2) { toast(translate('teamNeedTwo')); return }
+      if (!Number.isFinite(count) || count < 2 || count > 20) { toast(translate('teamCountRange')); return }
+      if (count > players.length) { toast(translate('teamCountTooHigh')); return }
+      sessionStorage.setItem('cark-team-names', $('#teamNames').value);
+      const teams = Array.from({ length: count }, () => []);
+      const assignments = cheatEnabled ? readCheatTeamAssignments() : {};
+      const unassigned = [];
+      players.forEach(name => {
+        const teamIndex = Number(assignments[name]);
+        if (assignments[name] !== undefined && Number.isInteger(teamIndex) && teamIndex >= 0 && teamIndex < count) teams[teamIndex].push(name);
+        else unassigned.push(name)
+      });
+      shuffleList(unassigned).forEach(name => {
+        const smallest = Math.min(...teams.map(team => team.length));
+        const available = teams.map((team, index) => team.length === smallest ? index : -1).filter(index => index >= 0);
+        teams[available[Math.floor(Math.random() * available.length)]].push(name)
+      });
+      $('#teamOutput').innerHTML = teams.map((team, index) => `<div class="team-box"><h3>${translate('teamLabel').replace('{n}', index + 1)}</h3>${team.map(name => `<div>${escapeHtml(name)}</div>`).join('')}</div>`).join('');
+      $('#reshuffleTeams').hidden = false
+    }
+    $('#makeTeams').onclick = createTeams;
+    $('#reshuffleTeams').onclick = createTeams;
     function setLabelText(selector, value) { const el = $(selector); if (!el) return; const text = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim()); if (text) text.textContent = ' ' + value + ' ' }
     function applyLanguage(lang) {
       if (!translations[lang]) lang = 'tr';
@@ -1979,6 +2277,9 @@
       $('#view-settings .eyebrow').textContent = t.settingsEyebrow;
       $('#view-settings h2').textContent = t.settingsTitle;
       $('#view-settings p').textContent = t.settingsCopy;
+      $('#launchPreferenceLabel').textContent = t.launchPreference;
+      $('#launchPreference').querySelector('[value="wheel"]').textContent = t.launchWheel;
+      $('#launchPreference').querySelector('[value="last"]').textContent = t.launchLast;
       $('.setting-theme-row > span:first-child').textContent = t.appearance;
       $('#navTransparencyLabel').textContent = t.navTransparency;
       $('#navTransparency').setAttribute('aria-label', t.navTransparency);
@@ -1986,7 +2287,19 @@
       $('#navTransparencyMax').textContent = t.opaque;
       setLabelText('.language-setting', t.language);
       setLabelText('.vibration-setting', t.vibration);
-      $('#vibrationStatus').textContent = typeof navigator.vibrate === 'function' ? '' : t.vibrationUnsupported;
+      const iosWebApp = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      $('#vibrationStatus').textContent = typeof navigator.vibrate === 'function' ? '' : (iosWebApp ? t.vibrationIosUnsupported : t.vibrationUnsupported);
+      $('#vibrationTestHint').textContent = t.vibrationTest;
+      $('#vibrationTest').textContent = t.vibrationTestAction;
+      $('#vibrationTest').disabled = typeof navigator.vibrate !== 'function';
+      $('.vibration-test-row').hidden = typeof navigator.vibrate !== 'function';
+      $('#reshuffleTeams').textContent = t.reshuffle;
+      $('#removeWinnerLabel').textContent = t.removeWinner;
+      $('#resultRepeat').textContent = t.repeatWheel;
+      $('#tourSettingLabel').textContent = t.tourSetting;
+      $('#tourStart').textContent = t.tourStart;
+      $('#tourSkip').textContent = t.tourSkip;
+      $('#tourTitle').textContent = t.tourTitle;
       $('.install-row > span').textContent = t.installLabel;
       $('#settingsInstall').textContent = t.installAction;
       $('#installBanner > span').textContent = t.installBanner;
@@ -1996,14 +2309,72 @@
       $('#resultClose').setAttribute('aria-label', t.resultClose);
       $('#resultTitle').textContent = t.resultTitle;
       $('#resultOk').textContent = t.resultOk;
+      $('#tourNext').textContent = t.tourNext;
       $('#themeToggle').setAttribute('aria-label', document.documentElement.dataset.theme === 'dark' ? t.lightMode : t.darkMode);
       $('#language').value = lang;
       localStorage.setItem('cark-language', lang);
       render();
     }
-    $('#language').onchange = () => applyLanguage($('#language').value);
+    $('#language').onchange = () => {
+      applyLanguage($('#language').value);
+      if (!$('#tourOverlay').hidden) updateTour()
+    };
     applyLanguage(currentLanguage);
     $('#settingsInstall').onclick = () => toast(translate('installHelp'));
+    const launchPreference = $('#launchPreference');
+    launchPreference.value = localStorage.getItem('cark-launch-preference') || 'wheel';
+    launchPreference.onchange = () => localStorage.setItem('cark-launch-preference', launchPreference.value);
+    const vibrationApiAvailable = typeof navigator.vibrate === 'function';
+    const vibrateControl = $('#vibrate');
+    vibrateControl.checked = localStorage.getItem('cark-vibrate') === 'true' && vibrationApiAvailable;
+    vibrateControl.disabled = !vibrationApiAvailable;
+    vibrateControl.onchange = () => localStorage.setItem('cark-vibrate', String(vibrateControl.checked));
+    function playVibration(duration) {
+      if (!vibrateControl.checked || !vibrationApiAvailable || document.visibilityState !== 'visible') return false;
+      try { return navigator.vibrate(duration) } catch (error) { return false }
+    }
+    $('#vibrationTest').onclick = () => {
+      if (!vibrationApiAvailable) return;
+      const sent = playVibration([24, 35, 24]);
+      if (sent) toast(translate('vibrationTestOk'))
+    };
+    let tourStepIndex = 0;
+    const tourStepKeys = [
+      ['tourWheelTitle', 'tourWheelCopy'], ['tourNavigationTitle', 'tourNavigationCopy'],
+      ['tourCoinTitle', 'tourCoinCopy'], ['tourTeamsTitle', 'tourTeamsCopy'], ['tourInstallTitle', 'tourInstallCopy']
+    ];
+    function updateTour() {
+      const t = translations[currentLanguage] || translations.tr;
+      const [titleKey, copyKey] = tourStepKeys[tourStepIndex];
+      $('#tourProgress').textContent = t.tourStep.replace('{n}', tourStepIndex + 1);
+      $('#tourTitle').textContent = t[titleKey];
+      $('#tourCopy').textContent = t[copyKey];
+      $('#tourNext').textContent = tourStepIndex === tourStepKeys.length - 1 ? t.tourDone : t.tourNext
+    }
+    function closeTour() {
+      const overlay = $('#tourOverlay');
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+      localStorage.setItem('cark-tour-seen', 'true');
+      setTimeout(() => { overlay.hidden = true }, 230)
+    }
+    function openTour() {
+      tourStepIndex = 0;
+      updateTour();
+      const overlay = $('#tourOverlay');
+      overlay.hidden = false;
+      overlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => { overlay.classList.add('show'); $('#tourNext').focus() })
+    }
+    $('#tourNext').onclick = () => {
+      if (tourStepIndex < tourStepKeys.length - 1) { tourStepIndex++; updateTour() }
+      else closeTour()
+    };
+    $('#tourSkip').onclick = closeTour;
+    $('#tourOverlay').addEventListener('click', event => { if (event.target === $('#tourOverlay')) closeTour() });
+    $('#tourStart').onclick = openTour;
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && !$('#tourOverlay').hidden) closeTour() });
+    if (localStorage.getItem('cark-tour-seen') !== 'true') setTimeout(openTour, 650);
     function readCheatTeamAssignments() {
       try {
         const saved = JSON.parse(localStorage.getItem('cark-cheat-team-assignments') || '{}');
@@ -2099,7 +2470,7 @@
       localStorage.setItem('cark-cheat-team-assignments', JSON.stringify(assignments))
     });
     window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('#installBanner').classList.add('show') }); $('#installBtn').onclick = async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null } else toast(translate('installHelp')) };
-    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || location.search.includes('standalone') || location.search.includes('app'); document.body.classList.toggle('standalone', standalone); if (standalone) document.querySelector('#themeSettingSlot').append($('#themeToggle')); if (!standalone) document.querySelector('.brand-rule').after(document.querySelector('.nav-wrap')); function moveIndicator(tab) { const index = ['wheel', 'coin', 'teams', 'settings'].indexOf(tab); const ind = document.querySelector('.nav-indicator'); if (ind) { ind.style.setProperty('--nav-idx', index >= 0 ? index : 0); ind.style.setProperty('--nav-left', (index * 25) + '%') } }
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || location.search.includes('standalone') || location.search.includes('app'); document.body.classList.toggle('standalone', standalone); if (standalone) document.querySelector('#themeSettingSlot').append($('#themeToggle')); if (!standalone) document.querySelector('.brand-rule').after(document.querySelector('.nav-wrap'));
     const savedTheme = localStorage.getItem('cark-theme'); const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; function applyTheme(theme) { document.documentElement.dataset.theme = theme; document.body.dataset.theme = theme; const dark = theme === 'dark'; $('#themeToggle').innerHTML = dark ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'; $('#themeToggle').setAttribute('aria-label', dark ? translate('lightMode') : translate('darkMode')); $('#themeToggle').setAttribute('aria-pressed', String(dark)); document.querySelector('meta[name="theme-color"]').content = dark ? '#171a16' : '#f4f3ef'; if ($('#wheelCanvas')) render() } applyTheme(savedTheme || (systemDark ? 'dark' : 'light')); $('#themeToggle').onclick = () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('cark-theme', next); applyTheme(next) };
     document.documentElement.removeAttribute('data-nav-style');
     document.body.removeAttribute('data-nav-style');
@@ -2128,6 +2499,50 @@
     navTransparency.addEventListener('input', () => applyNavTransparency(navTransparency.value));
     applyNavTransparency(navTransparency.value);
     const vibrationSupported = typeof navigator.vibrate === 'function'; const vibrateInput = $('#vibrate'); vibrateInput.checked = localStorage.getItem('cark-vibrate') === 'true' && vibrationSupported; vibrateInput.disabled = !vibrationSupported; $('#vibrationStatus').textContent = vibrationSupported ? '' : translate('vibrationUnsupported'); vibrateInput.onchange = () => localStorage.setItem('cark-vibrate', String(vibrateInput.checked)); if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').then(r => r.update()).catch(() => { }));
+    function moveIndicator(tab, animate = true, fromIndex) {
+      const tabs = ['wheel', 'coin', 'teams', 'settings'];
+      const index = tabs.indexOf(tab);
+      const indicator = document.querySelector('.nav-indicator');
+      const nav = document.querySelector('.nav');
+      if (!indicator || !nav || index < 0) return;
+      const targetLeft = index * 25;
+      indicator.style.setProperty('--nav-idx', index);
+      indicator.style.setProperty('--nav-left', targetLeft + '%');
+      if (!animate || (fromIndex !== undefined && fromIndex === index)) {
+        indicator.getAnimations().forEach(animation => animation.cancel());
+        indicator.style.left = targetLeft + '%';
+        indicator.style.width = '25%';
+        return
+      }
+      const navWidth = nav.getBoundingClientRect().width;
+      if (!navWidth) { indicator.style.left = targetLeft + '%'; indicator.style.width = '25%'; return }
+      const navRect = nav.getBoundingClientRect();
+      const currentRect = indicator.getBoundingClientRect();
+      const currentLeft = currentRect.width ? (currentRect.left - navRect.left) / navWidth * 100 : (fromIndex ?? index) * 25;
+      const currentWidth = currentRect.width ? currentRect.width / navWidth * 100 : 25;
+      indicator.getAnimations().forEach(animation => animation.cancel());
+      indicator.style.left = currentLeft + '%';
+      indicator.style.width = currentWidth + '%';
+      const fromCenter = currentLeft + currentWidth / 2;
+      const toCenter = targetLeft + 12.5;
+      const stretchedWidth = Math.min(43, 25 + Math.abs(toCenter - fromCenter) * .42);
+      const middleLeft = (fromCenter + toCenter) / 2 - stretchedWidth / 2;
+      const animation = indicator.animate([
+        { left: currentLeft + '%', width: currentWidth + '%' },
+        { left: middleLeft + '%', width: stretchedWidth + '%', offset: .46, easing: 'cubic-bezier(.32,0,.4,1)' },
+        { left: targetLeft + '%', width: '25%', offset: .82, easing: 'cubic-bezier(.2,1.35,.35,1)' },
+        { left: targetLeft + '%', width: '25%' }
+      ], { duration: 510, easing: 'cubic-bezier(.22,.8,.25,1)', fill: 'forwards' });
+      animation.onfinish = () => {
+        indicator.style.left = targetLeft + '%';
+        indicator.style.width = '25%';
+        animation.cancel()
+      }
+    }
+    if (!vibrationSupported) {
+      const iosWebApp = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      $('#vibrationStatus').textContent = translate(iosWebApp ? 'vibrationIosUnsupported' : 'vibrationUnsupported')
+    }
   </script>
 </body>
 

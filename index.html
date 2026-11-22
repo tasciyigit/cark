@@ -50,6 +50,11 @@
       color: inherit
     }
 
+    html,
+    body {
+      touch-action: manipulation
+    }
+
     .app {
       max-width: 520px;
       margin: 0 auto
@@ -1373,6 +1378,14 @@
         animation: none
       }
     }
+    @media(max-width:599px) {
+      .add-row input,
+      #teamCount,
+      #teamNames,
+      #language {
+        font-size: 16px !important
+      }
+    }
   </style>
 </head>
 
@@ -1587,6 +1600,31 @@
     function escapeHtml(s) { return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
     render();
     document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => go(b.dataset.tab)); document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go)); function go(tab) { const tabs = ['wheel', 'coin', 'teams', 'settings'], oldIndex = tabs.findIndex(t => document.querySelector('[data-tab=\"' + t + '\"]')?.classList.contains('active')), newIndex = tabs.indexOf(tab); document.querySelectorAll('.view').forEach(v => { const active = v.id === 'view-' + tab; v.classList.toggle('active', active); if (active) { v.classList.remove('slide-left', 'slide-right'); v.classList.add(newIndex >= oldIndex ? 'slide-right' : 'slide-left') } }); document.querySelectorAll('[data-tab]').forEach(b => { const active = b.dataset.tab === tab; b.classList.toggle('active', active); if (active) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current') }); moveIndicator(tab); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); if (tab === 'wheel') requestAnimationFrame(render) } moveIndicator('wheel');
+    let swipeStart = null;
+    const swipeTabs = ['wheel', 'coin', 'teams', 'settings'];
+    document.addEventListener('touchstart', event => {
+      if (event.touches.length !== 1) { swipeStart = null; return }
+      const target = event.target instanceof Element ? event.target : event.target.parentElement;
+      if (!target || target.closest('input, textarea, select, button, a, [contenteditable="true"], [role="slider"], .nav-wrap, .result-overlay')) {
+        swipeStart = null;
+        return
+      }
+      const point = event.touches[0];
+      swipeStart = { x: point.clientX, y: point.clientY }
+    }, { passive: true });
+    document.addEventListener('touchend', event => {
+      if (!swipeStart || event.changedTouches.length !== 1) { swipeStart = null; return }
+      const point = event.changedTouches[0];
+      const dx = point.clientX - swipeStart.x;
+      const dy = point.clientY - swipeStart.y;
+      swipeStart = null;
+      if (Math.abs(dx) < 64 || Math.abs(dx) < Math.abs(dy) * 1.35) return;
+      const currentIndex = swipeTabs.findIndex(tab => document.querySelector('[data-tab="' + tab + '"]')?.classList.contains('active'));
+      if (currentIndex < 0) return;
+      const nextIndex = Math.max(0, Math.min(swipeTabs.length - 1, currentIndex + (dx > 0 ? 1 : -1)));
+      if (nextIndex !== currentIndex) go(swipeTabs[nextIndex])
+    }, { passive: true });
+    document.addEventListener('touchcancel', () => { swipeStart = null }, { passive: true });
     $('#addForm').onsubmit = e => { e.preventDefault(); let v = $('#nameInput').value.trim(); if (!v) return; if (names.length >= 16) { toast(translate('maxOptions')); return } names.push(v); $('#nameInput').value = ''; save() }; $('#clearNames').onclick = () => { names = []; save() };
     $('#spin').onclick = () => { if (spinning) return; if (names.length < 2) { toast(translate('spinNeedsTwo')); return } spinning = true; const winner = Math.floor(Math.random() * names.length), each = 360 / names.length; const desired = ((360 - (winner + .5) * each) % 360 + 360) % 360; const current = ((wheelRotation % 360) + 360) % 360; wheelRotation += 1800 + ((desired - current + 360) % 360); $('#wheel').style.transform = 'rotate(' + wheelRotation + 'deg)'; requestAnimationFrame(animateLabels); setTimeout(() => { spinning = false; drawLabels(wheelRotation % 360); showResult(translate('wheelResultTitle'), names[winner] + ' ' + translate('winnerVerb'), '#spin'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(60) }, 4550) }; let coinBusy = false, coinSide = 0; $('#flip').onclick = () => { if (coinBusy) return; coinBusy = true; const desired = Math.random() < .5 ? 0 : 1, result = desired ? translate('tails') : translate('heads'), start = coinSide * 180, turns = 6 + ((desired - (coinSide % 2) + 2) % 2); coinSide += turns; const end = coinSide * 180, c = $('#coin'); c.getAnimations().forEach(animation => animation.cancel()); c.animate([{ transform: 'rotateY(' + start + 'deg)' }, { transform: 'rotateY(' + end + 'deg)' }], { duration: 1450, easing: 'cubic-bezier(.18,.72,.22,1)', fill: 'forwards' }).onfinish = () => { coinBusy = false; showResult(translate('coinResultTitle'), result + '!', '#flip'); if ($('#vibrate').checked && navigator.vibrate) navigator.vibrate(50) } }; const samplePlayers = ['Bade', 'Yiğit', 'Meryem', 'Mustafa', 'Alara', 'Bekir', 'Şule', 'Cenk']; $('#teamNames').placeholder = samplePlayers.join('\n'); const sessionPlayers = sessionStorage.getItem('cark-team-names'); $('#teamNames').value = sessionPlayers || ''; $('#teamNames').addEventListener('input', e => sessionStorage.setItem('cark-team-names', e.target.value)); $('#makeTeams').onclick = () => { const players = $('#teamNames').value.split(/\n|,/).map(x => x.trim()).filter(Boolean), count = Math.floor(Number($('#teamCount').value)); if (players.length < 2) { toast(translate('teamNeedTwo')); return } if (!Number.isFinite(count) || count < 2 || count > 20) { toast(translate('teamCountRange')); return } if (count > players.length) { toast(translate('teamCountTooHigh')); return } sessionStorage.setItem('cark-team-names', $('#teamNames').value); const shuffled = [...players]; for (let i = shuffled.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]] } const teams = Array.from({ length: count }, () => []); shuffled.forEach((n, i) => teams[i % count].push(n)); $('#teamOutput').innerHTML = teams.map((t, i) => `<div class="team-box"><h3>${translate('teamLabel').replace('{n}', i + 1)}</h3>${t.map(n => `<div>${escapeHtml(n)}</div>`).join('')}</div>`).join('') };
     function setLabelText(selector, value) { const el = $(selector); if (!el) return; const text = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim()); if (text) text.textContent = ' ' + value + ' ' }

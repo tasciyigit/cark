@@ -25,93 +25,105 @@
     .nav button.active{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 5px rgba(32,37,31,.12)}
     .nav-indicator{display:none}
 
-    /* ─── Standalone / PWA / iPhone: Pure Liquid Glass Capsule Bar ─── */
+    /* ─── Standalone / PWA / iPhone: Pure Apple Liquid Glass Capsule Bar ─── */
     @media(display-mode:standalone){
-      body{padding-bottom:calc(105px + env(safe-area-inset-bottom))}
+      body{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
       .nav-wrap,body.standalone .nav-wrap{
         position:fixed;z-index:100;
-        bottom:max(14px,calc(env(safe-area-inset-bottom) + 8px));
+        bottom:max(12px,calc(env(safe-area-inset-bottom) * 0.4 + 6px));
         left:50%;transform:translateX(-50%);
-        width:min(390px,calc(100% - 32px));
-        margin:0;padding:3px;
+        width:min(400px,calc(100% - 24px));
+        margin:0;padding:4px 5px;
         border-radius:34px;
-        background:rgba(255,255,255,.28);
-        border:0.5px solid rgba(255,255,255,.65);
-        backdrop-filter:blur(14px) saturate(180%);
-        -webkit-backdrop-filter:blur(14px) saturate(180%);
-        box-shadow:0 10px 30px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04),inset 0 1px 1.5px rgba(255,255,255,.85),inset 0 -0.5px 1px rgba(255,255,255,.2);
+        background:radial-gradient(120% 100% at 50% 50%,rgba(255,255,255,.52) 0%,rgba(255,255,255,.72) 75%,rgba(255,255,255,.86) 100%);
+        border:0.5px solid rgba(255,255,255,.85);
+        backdrop-filter:blur(16px) saturate(200%);
+        -webkit-backdrop-filter:blur(16px) saturate(200%);
+        box-shadow:
+          0 16px 40px -6px rgba(0,0,0,.12),
+          0 4px 12px rgba(0,0,0,.04),
+          inset 0 1.5px 2px rgba(255,255,255,.95),
+          inset 0 -1.5px 2px rgba(0,0,0,.05),
+          inset 1.5px 0 3px rgba(255,255,255,.7),
+          inset -1.5px 0 3px rgba(255,255,255,.7);
       }
       .nav button{
-        min-height:48px;border-radius:30px;font-size:10px;font-weight:500;gap:2px;
-        color:rgba(32,37,31,.52);background:transparent;box-shadow:none;
+        min-height:56px;border-radius:28px;font-size:10.5px;font-weight:500;gap:3px;
+        color:rgba(20,25,20,.55);background:transparent;box-shadow:none;
         transition:color .25s ease,transform .12s ease;
         -webkit-tap-highlight-color:transparent;
       }
-      .nav button:active{transform:scale(.92)}
-      .nav button .ico{width:22px;height:22px;transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
-      .nav button .ico svg{width:21px;height:21px;stroke-width:1.6;transition:stroke-width .25s ease}
-      .nav button.active{background:transparent;box-shadow:none;color:#171a16;font-weight:650}
+      .nav button:active{transform:scale(.93)}
+      .nav button .ico{width:24px;height:24px;transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+      .nav button .ico svg{width:22px;height:22px;stroke-width:1.7;transition:stroke-width .25s ease}
+      .nav button.active{background:transparent;box-shadow:none;color:#111510;font-weight:700}
       .nav button.active .ico{transform:scale(1.08)}
-      .nav button.active .ico svg{stroke-width:2.2}
+      .nav button.active .ico svg{stroke-width:2.3}
       .nav-indicator{
         display:block;position:absolute;z-index:0;
         top:0;bottom:0;left:0;width:25%;
-        padding:2px;box-sizing:border-box;pointer-events:none;
+        padding:3px;box-sizing:border-box;pointer-events:none;
         transform:translate3d(calc(var(--nav-idx,0)*100%),0,0);
         transition:transform .38s cubic-bezier(.25,1.15,.3,1);
         will-change:transform;
       }
       .nav-indicator::before{
-        content:"";display:block;width:100%;height:100%;border-radius:30px;
-        background:linear-gradient(180deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,.32) 100%);
-        border:0.5px solid rgba(255,255,255,.9);
-        box-shadow:0 2px 8px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.95),inset 0 -0.5px 1px rgba(0,0,0,.04);
-        backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+        content:"";display:block;width:100%;height:100%;border-radius:26px;
+        background:linear-gradient(180deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.45) 100%);
+        border:1px solid rgba(255,255,255,.95);
+        box-shadow:0 3px 10px rgba(0,0,0,.06),inset 0 1.5px 2px rgba(255,255,255,1),inset 0 -1px 1px rgba(0,0,0,.04);
+        backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
       }
     }
 
-    body.standalone{padding-bottom:calc(105px + env(safe-area-inset-bottom))}
+    body.standalone{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
     body.standalone .nav-wrap{
       position:fixed;z-index:100;
-      bottom:max(14px,calc(env(safe-area-inset-bottom) + 8px));
+      bottom:max(12px,calc(env(safe-area-inset-bottom) * 0.4 + 6px));
       left:50%;transform:translateX(-50%);
-      width:min(390px,calc(100% - 32px));
-      margin:0;padding:3px;
+      width:min(400px,calc(100% - 24px));
+      margin:0;padding:4px 5px;
       border-radius:34px;
-      background:rgba(255,255,255,.28);
-      border:0.5px solid rgba(255,255,255,.65);
-      backdrop-filter:blur(14px) saturate(180%);
-      -webkit-backdrop-filter:blur(14px) saturate(180%);
-      box-shadow:0 10px 30px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04),inset 0 1px 1.5px rgba(255,255,255,.85),inset 0 -0.5px 1px rgba(255,255,255,.2);
+      background:radial-gradient(120% 100% at 50% 50%,rgba(255,255,255,.52) 0%,rgba(255,255,255,.72) 75%,rgba(255,255,255,.86) 100%);
+      border:0.5px solid rgba(255,255,255,.85);
+      backdrop-filter:blur(16px) saturate(200%);
+      -webkit-backdrop-filter:blur(16px) saturate(200%);
+      box-shadow:
+        0 16px 40px -6px rgba(0,0,0,.12),
+        0 4px 12px rgba(0,0,0,.04),
+        inset 0 1.5px 2px rgba(255,255,255,.95),
+        inset 0 -1.5px 2px rgba(0,0,0,.05),
+        inset 1.5px 0 3px rgba(255,255,255,.7),
+        inset -1.5px 0 3px rgba(255,255,255,.7);
     }
     body.standalone .nav button{
-      min-height:48px;border-radius:30px;font-size:10px;font-weight:500;gap:2px;
-      color:rgba(32,37,31,.52);background:transparent;box-shadow:none;
+      min-height:56px;border-radius:28px;font-size:10.5px;font-weight:500;gap:3px;
+      color:rgba(20,25,20,.55);background:transparent;box-shadow:none;
       transition:color .25s ease,transform .12s ease;
       -webkit-tap-highlight-color:transparent;
     }
-    body.standalone .nav button:active{transform:scale(.92)}
-    body.standalone .nav button .ico{width:22px;height:22px;transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
-    body.standalone .nav button .ico svg{width:21px;height:21px;stroke-width:1.6;transition:stroke-width .25s ease}
-    body.standalone .nav button.active{background:transparent;box-shadow:none;color:#171a16;font-weight:650}
+    body.standalone .nav button:active{transform:scale(.93)}
+    body.standalone .nav button .ico{width:24px;height:24px;transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+    body.standalone .nav button .ico svg{width:22px;height:22px;stroke-width:1.7;transition:stroke-width .25s ease}
+    body.standalone .nav button.active{background:transparent;box-shadow:none;color:#111510;font-weight:700}
     body.standalone .nav button.active .ico{transform:scale(1.08)}
-    body.standalone .nav button.active .ico svg{stroke-width:2.2}
+    body.standalone .nav button.active .ico svg{stroke-width:2.3}
     body.standalone .nav-indicator{
       display:block;position:absolute;z-index:0;
       top:0;bottom:0;left:0;width:25%;
-      padding:2px;box-sizing:border-box;pointer-events:none;
+      padding:3px;box-sizing:border-box;pointer-events:none;
       transform:translate3d(calc(var(--nav-idx,0)*100%),0,0);
       transition:transform .38s cubic-bezier(.25,1.15,.3,1);
       will-change:transform;
     }
     body.standalone .nav-indicator::before{
-      content:"";display:block;width:100%;height:100%;border-radius:30px;
-      background:linear-gradient(180deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,.32) 100%);
-      border:0.5px solid rgba(255,255,255,.9);
-      box-shadow:0 2px 8px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.95),inset 0 -0.5px 1px rgba(0,0,0,.04);
-      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      content:"";display:block;width:100%;height:100%;border-radius:26px;
+      background:linear-gradient(180deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.45) 100%);
+      border:1px solid rgba(255,255,255,.95);
+      box-shadow:0 3px 10px rgba(0,0,0,.06),inset 0 1.5px 2px rgba(255,255,255,1),inset 0 -1px 1px rgba(0,0,0,.04);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
     }
-    @media(max-width:370px){body.standalone .nav button{font-size:9px}.nav button .ico{width:20px;height:20px}}
+    @media(max-width:370px){body.standalone .nav-wrap{width:calc(100% - 18px);padding:3px}body.standalone .nav button{font-size:9.5px;min-height:52px}body.standalone .nav button .ico{width:22px;height:22px}}
   
     html{background:var(--paper)}.brand-icon svg{display:block;width:25px;height:25px}.brand-rule{border:0;border-top:1px solid var(--line);margin:12px 0 0;opacity:.9}.top-actions{display:flex;align-items:center;gap:8px}.theme-toggle{width:38px;height:38px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--ink);display:grid;place-items:center;box-shadow:0 2px 8px rgba(32,37,31,.06)}.theme-toggle svg{width:18px;height:18px;display:block}.vibration-control{display:flex;align-items:center;gap:9px}.vibration-control small{max-width:175px;color:var(--muted);font-size:10px;line-height:1.25}.standalone .top{padding-top:calc(22px + env(safe-area-inset-top))}.standalone{background:var(--paper)}
     [data-theme="dark"]{--ink:#f0f2ea;--muted:#a4aa9e;--paper:#171a16;--green:#b8d393;--lime:#d5f59a;--line:#383d35;--card:rgba(37,41,35,.9);--shadow:0 18px 55px rgba(0,0,0,.3);color-scheme:dark;background:#171a16;color:var(--ink)}
@@ -119,10 +131,35 @@
     [data-theme="dark"] .surface,[data-theme="dark"] .mini,[data-theme="dark"] .list-card,[data-theme="dark"] .tool-card,[data-theme="dark"] .wheel-card{background:var(--card);border-color:#ffffff18}[data-theme="dark"] .avatar,[data-theme="dark"] .theme-toggle,[data-theme="dark"] .pill,[data-theme="dark"] .select{background:#252a23;color:var(--ink);border-color:var(--line)}[data-theme="dark"] .add-row input,[data-theme="dark"] #teamNames{background:#20241e!important;color:var(--ink)!important;border-color:var(--line)!important}[data-theme="dark"] .spin{background:#c6e678;color:#20251f;box-shadow:0 8px 20px rgba(0,0,0,.28)}[data-theme="dark"] .spin b{color:#20251f}[data-theme="dark"] .team-box{background:#20241e;border-color:var(--line)}[data-theme="dark"] .mini-icon{background:#30362c}[data-theme="dark"] .brand-icon{background:#30362c;color:#d7f39a}[data-theme="dark"] .primary{background:#35422c;color:#d7f39a}[data-theme="dark"] .coin-face{color:#49340f}
     /* ─── Dark mode: Liquid Glass ─── */
     [data-theme="dark"] .nav-wrap{background:#2c2c2e;border-color:#3a3a3c}[data-theme="dark"] .nav button{color:#98989e}[data-theme="dark"] .nav button.active{color:#fff;background:rgba(255,255,255,.1)}
-    body.standalone[data-theme="dark"] .nav-wrap,[data-theme="dark"] body.standalone .nav-wrap{background:rgba(24,28,24,.32);border:0.5px solid rgba(255,255,255,.22);backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);box-shadow:0 12px 36px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.3),inset 0 1px 1.5px rgba(255,255,255,.35),inset 0 -0.5px 1px rgba(0,0,0,.3)}
-    body.standalone[data-theme="dark"] .nav button,[data-theme="dark"] body.standalone .nav button{color:rgba(255,255,255,.45)}
-    body.standalone[data-theme="dark"] .nav button.active,[data-theme="dark"] body.standalone .nav button.active{color:#ffffff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-    body.standalone[data-theme="dark"] .nav-indicator::before,[data-theme="dark"] body.standalone .nav-indicator::before{background:linear-gradient(180deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.08) 100%);border:0.5px solid rgba(255,255,255,.35);box-shadow:0 2px 10px rgba(0,0,0,.28),inset 0 1px 1.5px rgba(255,255,255,.45),inset 0 -0.5px 1px rgba(0,0,0,.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    body.standalone[data-theme="dark"] .nav-wrap,[data-theme="dark"] body.standalone .nav-wrap{
+      background:radial-gradient(120% 100% at 50% 50%,rgba(255,255,255,.05) 0%,rgba(255,255,255,.14) 75%,rgba(255,255,255,.24) 100%);
+      border:0.5px solid rgba(255,255,255,.32);
+      backdrop-filter:blur(16px) saturate(210%);
+      -webkit-backdrop-filter:blur(16px) saturate(210%);
+      box-shadow:
+        0 20px 48px -4px rgba(0,0,0,.55),
+        0 4px 14px rgba(0,0,0,.35),
+        inset 0 1.5px 2px rgba(255,255,255,.55),
+        inset 0 -1.5px 2px rgba(0,0,0,.35),
+        inset 1.5px 0 3px rgba(255,255,255,.3),
+        inset -1.5px 0 3px rgba(255,255,255,.3);
+    }
+    body.standalone[data-theme="dark"] .nav button,[data-theme="dark"] body.standalone .nav button{
+      color:rgba(255,255,255,.52);
+    }
+    body.standalone[data-theme="dark"] .nav button.active,[data-theme="dark"] body.standalone .nav button.active{
+      color:#ffffff;
+      text-shadow:0 1px 3px rgba(0,0,0,.6);
+    }
+    body.standalone[data-theme="dark"] .nav-indicator::before,[data-theme="dark"] body.standalone .nav-indicator::before{
+      background:linear-gradient(180deg,rgba(255,255,255,.24) 0%,rgba(255,255,255,.09) 100%);
+      border:1px solid rgba(255,255,255,.45);
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.3),
+        inset 0 1.5px 2px rgba(255,255,255,.6),
+        inset 0 -1px 1px rgba(0,0,0,.25);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    }
     .setting-theme-row{display:none}.standalone .setting-theme-row{display:flex}.standalone #profileButton{display:none}
     .result-overlay{position:fixed;inset:0;z-index:130;display:grid;place-items:center;padding:24px;background:rgba(17,20,16,.38);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .22s ease}.result-overlay[hidden]{display:none}.result-overlay.show{opacity:1}.result-dialog{position:relative;width:min(100%,360px);padding:30px 24px 22px;border:1px solid rgba(255,255,255,.82);border-radius:30px;background:rgba(255,255,255,.96);color:#20251f;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.25);transform:translateY(8px) scale(.97);transition:transform .24s cubic-bezier(.2,.8,.2,1)}.result-overlay.show .result-dialog{transform:translateY(0) scale(1)}.result-close{position:absolute;top:11px;right:12px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(32,37,31,.07);font-size:23px;line-height:1}.result-spark{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 14px;border-radius:18px;background:#edf2e4;color:#607a4a;font-size:24px}.result-dialog p{margin:0 0 7px;color:#73796e;font-size:13px}.result-dialog h2{margin:0 0 22px;font-size:26px;line-height:1.15;overflow-wrap:anywhere}.result-ok{width:100%;border:0;border-radius:15px;padding:13px;background:#20251f;color:white;font-weight:700}[data-theme="dark"] .result-overlay{background:rgba(0,0,0,.56)}[data-theme="dark"] .result-dialog{background:rgba(37,41,35,.97);color:#f0f2ea;border-color:rgba(255,255,255,.18)}[data-theme="dark"] .result-dialog p{color:#bac0b3}[data-theme="dark"] .result-spark{background:#35422c;color:#d5f59a}[data-theme="dark"] .result-ok{background:#c6e678;color:#20251f}[data-theme="dark"] .result-close{background:rgba(255,255,255,.12);color:#f0f2ea}@media(prefers-reduced-motion:reduce){.nav-indicator,.view.active,.result-overlay,.result-dialog{transition:none;animation:none}}
   </style>
@@ -141,7 +178,7 @@
   <section class="view" id="view-teams"><div class="surface tool-card"><div class="eyebrow">Birlikte oynayın</div><h2>Takımları oluştur</h2><p>Çarkındaki isimleri karıştırıp dengeli takımlara ayıralım.</p><label class="form-line" for="teamCount">Kaç takım olsun? <input id="teamCount" class="select" type="number" min="2" max="20" value="2" inputmode="numeric"></label><label class="form-line" style="display:block">Oyuncu isimleri <span style="display:block;font-size:11px;color:#858a80;margin:5px 0 8px">Her satıra bir isim yaz</span><textarea id="teamNames" rows="10" placeholder="Bade&#10;Yiğit&#10;Meryem&#10;Mustafa&#10;Alara&#10;Bekir&#10;Şule&#10;Cenk" style="width:100%;min-height:205px;line-height:1.4;font-size:14px;resize:vertical;border:1px solid #e4e5dd;border-radius:14px;padding:12px;background:#fff;color:#20251f"></textarea></label><button class="spin" id="makeTeams"><b>✦</b> Takımları oluştur</button><div class="team-output" id="teamOutput"></div></div></section>
   <section class="view" id="view-settings"><div class="surface tool-card"><div class="eyebrow">Kişiselleştir</div><h2>Ayarlar</h2><p>Çark'ı kendine göre düzenle.</p><div class="setting-row setting-theme-row"><span>Görünüm</span><span id="themeSettingSlot"></span></div><label class="setting-row">Dil <select class="select" id="language"><option value="tr">Türkçe</option><option value="en">English</option></select></label><label class="setting-row">Titreşim <span class="vibration-control"><input type="checkbox" class="toggle" id="vibrate"><small id="vibrationStatus"></small></span></label><div class="setting-row"><span>Ana ekrana ekle</span><button class="text-button" id="settingsInstall">Nasıl yapılır?</button></div><div class="setting-row" style="color:#969a91;font-size:11px">Çark · Her kararın küçük bir eğlencesi</div></div></section>
 </main>
-<div class="nav-wrap"><nav class="nav" aria-label="Ana navigasyon" role="navigation"><span class="nav-indicator" aria-hidden="true"></span><button class="active" aria-current="page" type="button" data-tab="wheel"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5l6 6"/></svg></span>Çark</button><button type="button" data-tab="coin"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3v18"/></svg></span>Yazı tura</button><button type="button" data-tab="teams"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 19c.4-3.1 2.4-5 5.5-5s5.1 1.9 5.5 5M14.5 15c3.3-.8 5.7.7 6 3.5"/></svg></span>Takımlar</button><button type="button" data-tab="settings"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.7 2.9-.2-.1a1.7 1.7 0 0 0-1.8.1l-.2.1h-3.4l-.1-.2a1.7 1.7 0 0 0-1.5-1l-.2-.1-2.9-1.7.1-.2a1.7 1.7 0 0 0-.1-1.8l-.1-.2v-3.4l.2-.1a1.7 1.7 0 0 0 1-1.5l.1-.2 1.7-2.9.2.1a1.7 1.7 0 0 0 1.8-.1l.2-.1h3.4l.1.2a1.7 1.7 0 0 0 1.5 1l.2.1 2.9 1.7-.1.2a1.7 1.7 0 0 0 .1 1.8l.1.2v3.4z"/></svg></span>Ayarlar</button></nav></div><div class="toast" id="toast"></div><div class="result-overlay" id="resultOverlay" hidden aria-hidden="true"><section class="result-dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultMessage"><button class="result-close" id="resultClose" type="button" aria-label="Kapat">×</button><span class="result-spark" aria-hidden="true">✦</span><p id="resultTitle">Sonuç</p><h2 id="resultMessage"></h2><button class="result-ok" id="resultOk" type="button">Tamam</button></section></div>
+<div class="nav-wrap"><nav class="nav" aria-label="Ana navigasyon" role="navigation"><span class="nav-indicator" aria-hidden="true"></span><button class="active" aria-current="page" type="button" data-tab="wheel"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5l6 6"/></svg></span>Çark</button><button type="button" data-tab="coin"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3v18"/></svg></span>Yazı tura</button><button type="button" data-tab="teams"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 19c.4-3.1 2.4-5 5.5-5s5.1 1.9 5.5 5M14.5 15c3.3-.8 5.7.7 6 3.5"/></svg></span>Takımlar</button><button type="button" data-tab="settings"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>Ayarlar</button></nav></div><div class="toast" id="toast"></div><div class="result-overlay" id="resultOverlay" hidden aria-hidden="true"><section class="result-dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultMessage"><button class="result-close" id="resultClose" type="button" aria-label="Kapat">×</button><span class="result-spark" aria-hidden="true">✦</span><p id="resultTitle">Sonuç</p><h2 id="resultMessage"></h2><button class="result-ok" id="resultOk" type="button">Tamam</button></section></div>
 <script>
 const palette=['#9cb969','#f0c36a','#e59070','#87afa1','#b69ac9','#d6809d','#80a9c6','#d2a45e'];
 const defaults=['Kahve molası','Film gecesi','Kısa bir yürüyüş','Yeni bir tarif'];
